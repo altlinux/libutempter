@@ -44,7 +44,7 @@ all: $(TARGETS)
 $(SHAREDLIB): iface.os
 	$(LINK.o) -shared -Wl,-soname,$(SONAME) -lc $+ $(OUTPUT_OPTION)
 
-$(SONAME_COMPAT): iface0.os
+$(SONAME_COMPAT): iface0.os $(SHAREDLIB)
 	$(LINK.o) -shared -Wl,-soname,$(SONAME_COMPAT) -lc -L. -l$(PROJECT) $+ $(OUTPUT_OPTION)
 
 $(STATICLIB): iface.o
