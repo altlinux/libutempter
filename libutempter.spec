@@ -16,9 +16,8 @@ Provides: utempter = 0.5.2
 Obsoletes: utempter
 
 %description
-Utempter is a privileged helper which allows terminal emulators such
-as screen and xterm to record user sessions to utmp and wtmp files,
-using %name interface.
+This library provides interface for terminal emulators such as
+screen and xterm to record user sessions to utmp and wtmp files.
 
 %package devel
 Summary: Development environment for utempter
