@@ -140,5 +140,5 @@ utempter_remove_added_record (void)
 int
 utempter_set_helper (const char *pathname)
 {
-	utempter_pathname = UTEMPTER_DEFAULT_PATHNAME;
+	utempter_pathname = pathname;
 }
