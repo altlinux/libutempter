@@ -28,29 +28,34 @@ extern int utempter_add_record (int master_fd, const char *hostname);
 extern int utempter_remove_record (int master_fd);
 extern int utempter_remove_added_record (void);
 
-#ifdef	WITH_UTEMPTER_COMPAT
-
 /* Provide compatibility with old redhat interface. */
 
-inline void
+#ifndef	WITH_UTEMPTER_COMPAT
+static  inline
+#endif
+void
 addToUtmp (const char *pty __attribute ((unused)), const char *hostname,
 	   int master_fd)
 {
 	utempter_add_record (master_fd, hostname);
 }
 
-inline void
+#ifndef	WITH_UTEMPTER_COMPAT
+static  inline
+#endif
+void
 removeFromUtmp (void)
 {
 	utempter_remove_added_record ();
 }
 
-inline void
+#ifndef	WITH_UTEMPTER_COMPAT
+static  inline
+#endif
+void
 removeLineFromUtmp (const char *pty __attribute ((unused)), int master_fd)
 {
 	utempter_remove_record (master_fd);
 }
-
-#endif /* WITH_UTEMPTER_COMPAT */
 
 #endif /* __UTEMPTER_H__ */
