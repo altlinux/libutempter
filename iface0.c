@@ -2,7 +2,7 @@
 /*
   $Id$
 
-  Copyright (C) 2001  Dmitry V. Levin <ldv@fandra.org>
+  Copyright (C) 2001,2002  Dmitry V. Levin <ldv@altlinux.org>
 
   Utempter library compatibility interface.
 
