@@ -1,7 +1,7 @@
 # $Id$
 
 Name: libutempter
-Version: 1.0.4
+Version: 1.0.5
 Release: alt1
 %define helperdir %_libdir/utempter
 
@@ -72,6 +72,9 @@ statically linked utempter-based software.
 %_libdir/*.a
 
 %changelog
+* Mon Dec 10 2001 Dmitry V. Levin <ldv@alt-linux.org> 1.0.5-alt1
+- iface.c: block SIGCHLD instead of redefine signal handler.
+
 * Wed Nov 21 2001 Dmitry V. Levin <ldv@alt-linux.org> 1.0.4-alt1
 - utempter.h: do not use __attribute ((unused)).
 
