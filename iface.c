@@ -129,6 +129,8 @@ execute_helper (int master_fd, const char *const argv[])
 	}
 }
 
+/* New interface. */
+
 int
 utempter_add_record (int master_fd, const char *hostname)
 {
@@ -169,4 +171,24 @@ void
 utempter_set_helper (const char *pathname)
 {
 	utempter_pathname = pathname;
+}
+
+/* Old interface. */
+
+void
+addToUtmp (const char *pty, const char *hostname, int master_fd)
+{
+	utempter_add_record (master_fd, hostname);
+}
+
+void
+removeFromUtmp (void)
+{
+	utempter_remove_added_record ();
+}
+
+void
+removeLineFromUtmp (const char *pty, int master_fd)
+{
+	utempter_remove_record (master_fd);
 }

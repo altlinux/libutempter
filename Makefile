@@ -56,7 +56,6 @@ install:
 	$(INSTALL) -pD -m2711 $(PROJECT) $(DESTDIR)$(libexecdir)/$(PROJECT)/$(PROJECT)
 	$(INSTALL) -pD -m644 $(PROJECT).h $(DESTDIR)$(includedir)/$(PROJECT).h
 	$(INSTALL) -pD -m755 $(SHAREDLIB) $(DESTDIR)$(libdir)/$(SHAREDLIB).$(VERSION)
-	$(INSTALL) -pD -m755 $(SONAME_COMPAT) $(DESTDIR)$(libdir)/$(SONAME_COMPAT)
 	$(INSTALL) -pD -m644 $(STATICLIB) $(DESTDIR)$(libdir)/$(STATICLIB)
 	ln -s $(SHAREDLIB).$(VERSION) $(DESTDIR)$(libdir)/$(SONAME)
 	ln -s $(SONAME) $(DESTDIR)$(libdir)/$(SONAME_COMPAT)

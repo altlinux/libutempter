@@ -1,0 +1,9 @@
+# $Id$
+
+UTEMPTER_1.1 {
+  global:
+    utempter_add_record;
+    utempter_remove_record;
+    utempter_remove_added_record;
+    utempter_set_helper;
+};

@@ -21,50 +21,28 @@
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA
 */
 
-#ifndef __UTEMPTER_H__
-#define __UTEMPTER_H__
+#ifndef UTEMPTER_H
+#define UTEMPTER_H
 
 #ifdef	__cplusplus
 extern  "C" {
 #endif
+
+/* New interface. */
 
 extern int utempter_add_record (int master_fd, const char *hostname);
 extern int utempter_remove_record (int master_fd);
 extern int utempter_remove_added_record (void);
 extern void utempter_set_helper (const char *pathname);
 
+/* Old interface. */
+
+extern void addToUtmp (const char *pty, const char *hostname, int master_fd);
+extern void removeFromUtmp (void);
+extern void removeLineFromUtmp (const char *pty, int master_fd);
+
 #ifdef	__cplusplus
 }
 #endif
 
-/* Provide compatibility with old redhat interface. */
-
-#ifndef	WITH_UTEMPTER_COMPAT
-static  inline
-#endif
-void
-addToUtmp (const char *pty, const char *hostname,
-	   int master_fd)
-{
-	utempter_add_record (master_fd, hostname);
-}
-
-#ifndef	WITH_UTEMPTER_COMPAT
-static  inline
-#endif
-void
-removeFromUtmp (void)
-{
-	utempter_remove_added_record ();
-}
-
-#ifndef	WITH_UTEMPTER_COMPAT
-static  inline
-#endif
-void
-removeLineFromUtmp (const char *pty, int master_fd)
-{
-	utempter_remove_record (master_fd);
-}
-
-#endif /* __UTEMPTER_H__ */
+#endif /* UTEMPTER_H */

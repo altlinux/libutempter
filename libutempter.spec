@@ -48,7 +48,7 @@ statically linked utempter-based software.
 %make_build
 
 %install
-make install
+make install DESTDIR="$RPM_BUILD_ROOT"
 
 %pre
 /usr/sbin/groupadd -r -f utmp >/dev/null 2>&1
