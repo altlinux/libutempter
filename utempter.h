@@ -42,7 +42,7 @@ extern int utempter_remove_added_record (void);
 static  inline
 #endif
 void
-addToUtmp (const char *pty __attribute ((unused)), const char *hostname,
+addToUtmp (const char *pty, const char *hostname,
 	   int master_fd)
 {
 	utempter_add_record (master_fd, hostname);
@@ -61,7 +61,7 @@ removeFromUtmp (void)
 static  inline
 #endif
 void
-removeLineFromUtmp (const char *pty __attribute ((unused)), int master_fd)
+removeLineFromUtmp (const char *pty, int master_fd)
 {
 	utempter_remove_record (master_fd);
 }
