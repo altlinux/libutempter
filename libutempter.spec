@@ -1,9 +1,8 @@
 # $Id$
 
 Name: libutempter
-Version: 1.1.1
+Version: 1.1.2
 Release: alt1
-%define helperdir %_libexecdir/utempter
 
 Summary: A privileged helper for utmp/wtmp updates
 License: LGPL
@@ -14,6 +13,8 @@ Source: %name-%version.tar.bz2
 PreReq: shadow-utils
 Provides: utempter = 0.5.2
 Obsoletes: utempter
+
+%define helperdir %_libexecdir/utempter
 
 %description
 This library provides interface for terminal emulators such as
@@ -45,10 +46,11 @@ statically linked utempter-based software.
 %setup -q
 
 %build
-%make_build
+%make_build libdir="%_libdir" libexecdir="%_libexecdir"
 
 %install
-make install DESTDIR="$RPM_BUILD_ROOT"
+make install DESTDIR="$RPM_BUILD_ROOT" \
+	libdir="%_libdir" libexecdir="%_libexecdir"
 
 %pre
 /usr/sbin/groupadd -r -f utmp >/dev/null 2>&1
@@ -71,6 +73,9 @@ make install DESTDIR="$RPM_BUILD_ROOT"
 %_libdir/*.a
 
 %changelog
+* Sun Sep 05 2004 Dmitry V. Levin <ldv@altlinux.org> 1.1.2-alt1
+- Added multilib support.
+
 * Fri Feb 14 2003 Dmitry V. Levin <ldv@altlinux.org> 1.1.1-alt1
 - iface.c: don't block SIGCHLD; redefine signal handler instead.
 
