@@ -12,7 +12,7 @@ Group: System/Libraries
 Source: %name-%version.tar.bz2
 
 PreReq: shadow-utils
-Provides: libutempter.so.1, utempter = 0.5.2
+Provides: utempter = 0.5.2
 Obsoletes: utempter
 
 %description
@@ -56,9 +56,6 @@ make install DESTDIR="$RPM_BUILD_ROOT"
 
 %post -p %post_ldconfig
 %postun -p %postun_ldconfig
-
-%triggerpostun -- libutempter < 1.1.0
-%__ln_s -f libutempter.so.0 %_libdir/libutempter.so.1
 
 %files
 %_libdir/*.so.*
