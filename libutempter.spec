@@ -1,7 +1,7 @@
 # $Id$
 
 Name: libutempter
-Version: 1.1.0
+Version: 1.1.1
 Release: alt1
 %define helperdir %_libexecdir/utempter
 
@@ -71,6 +71,9 @@ make install DESTDIR="$RPM_BUILD_ROOT"
 %_libdir/*.a
 
 %changelog
+* Fri Feb 14 2003 Dmitry V. Levin <ldv@altlinux.org> 1.1.1-alt1
+- iface.c: don't block SIGCHLD; redefine signal handler instead.
+
 * Mon Dec 23 2002 Dmitry V. Levin <ldv@altlinux.org> 1.1.0-alt1
 - Changed soname back to libutempter.so.0, introduced versioning.
 
