@@ -4,7 +4,7 @@
 
   Copyright (C) 2001  Dmitry V. Levin <ldv@fandra.org>
 
-  Interface for utempter library.
+  Utempter library compatibility interface.
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -21,36 +21,5 @@
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
-#ifndef __UTEMPTER_H__
-#define __UTEMPTER_H__
-
-extern int utempter_add_record (int master_fd, const char *hostname);
-extern int utempter_remove_record (int master_fd);
-extern int utempter_remove_added_record (void);
-
-#ifdef	WITH_UTEMPTER_COMPAT
-
-/* Provide compatibility with old redhat interface. */
-
-inline void
-addToUtmp (const char *pty __attribute ((unused)), const char *hostname,
-	   int master_fd)
-{
-	utempter_add_record (master_fd, hostname);
-}
-
-inline void
-removeFromUtmp (void)
-{
-	utempter_remove_added_record ();
-}
-
-inline void
-removeLineFromUtmp (const char *pty __attribute ((unused)), int master_fd)
-{
-	utempter_remove_record (master_fd);
-}
-
-#endif /* WITH_UTEMPTER_COMPAT */
-
-#endif /* __UTEMPTER_H__ */
+#define	WITH_UTEMPTER_COMPAT
+#include "utempter.h"

@@ -21,17 +21,20 @@
 
 PROJECT = utempter
 MAJOR = 1
-VERSION = $(MAJOR).0.1
+VERSION = $(MAJOR).0.2
 
 SHAREDLIB = lib$(PROJECT).so
 SONAME = $(SHAREDLIB).$(MAJOR)
+SONAME_COMPAT = $(SHAREDLIB).0
 STATICLIB = lib$(PROJECT).a
 
 CFLAGS = $(RPM_OPT_FLAGS)
 
-TARGETS = $(PROJECT) $(SHAREDLIB) $(STATICLIB)
+TARGETS = $(PROJECT) $(SHAREDLIB) $(STATICLIB) $(SONAME_COMPAT)
 
 INSTALL = install
+libdir = /usr/lib
+includedir = /usr/include
 
 all: $(TARGETS)
 
@@ -40,6 +43,9 @@ all: $(TARGETS)
 
 $(SHAREDLIB): iface.os
 	$(LINK.o) -shared -Wl,-soname,$(SONAME) -lc $+ $(OUTPUT_OPTION)
+
+$(SONAME_COMPAT): iface0.os
+	$(LINK.o) -shared -Wl,-soname,$(SONAME_COMPAT) -lc -L. -l$(PROJECT) $+ $(OUTPUT_OPTION)
 
 $(STATICLIB): iface.o
 	$(AR) $(ARFLAGS) $@ $+
@@ -50,7 +56,8 @@ iface.o: iface.c utempter.h
 install:
 	$(INSTALL) -D -m2711 $(PROJECT) $(libdir)/$(PROJECT)/$(PROJECT)
 	$(INSTALL) -D -m644 $(PROJECT).h $(includedir)/$(PROJECT).h
-	$(INSTALL) -D -m644 $(SHAREDLIB) $(libdir)/$(SHAREDLIB).$(VERSION)
+	$(INSTALL) -D -m755 $(SHAREDLIB) $(libdir)/$(SHAREDLIB).$(VERSION)
+	$(INSTALL) -D -m755 $(SONAME_COMPAT) $(libdir)/$(SONAME_COMPAT)
 	$(INSTALL) -D -m644 $(STATICLIB) $(libdir)/$(STATICLIB)
 	ln -s $(SHAREDLIB).$(VERSION) $(libdir)/$(SHAREDLIB).$(MAJOR)
 	ln -s $(SHAREDLIB).$(MAJOR) $(libdir)/$(SHAREDLIB)

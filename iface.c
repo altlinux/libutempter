@@ -94,8 +94,7 @@ execute_helper (int master_fd, const char *const argv[])
 			fprintf (stderr, "libutempter: waitpid: %s\n",
 				 strerror (errno));
 #endif
-			sigaction (SIGCHLD, &saved_action, 0);
-			return 0;
+			status = 1;
 		}
 
 		sigaction (SIGCHLD, &saved_action, 0);
