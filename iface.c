@@ -1,3 +1,4 @@
+
 /*
   $Id$
 
@@ -35,92 +36,102 @@
 
 #define	UTEMPTER_PATH	"/usr/lib/utempter/utempter"
 
-static	int	saved_fd = -1;
+static int saved_fd = -1;
 
-static	int	execute_helper( int master_fd, const char *const argv[] )
+static int
+execute_helper (int master_fd, const char *const argv[])
 {
-	struct	sigaction	saved_action, action;
+	struct sigaction saved_action, action;
 
 	action.sa_handler = SIG_IGN;
-	sigemptyset( &action.sa_mask );
+	sigemptyset (&action.sa_mask);
 	action.sa_flags = 0;
 
-	if ( sigaction( SIGCHLD, &action, &saved_action ) < 0 )
+	if (sigaction (SIGCHLD, &action, &saved_action) < 0)
 	{
 #ifdef	UTEMPTER_DEBUG
-		fprintf( stderr, "libutempter: sigaction: %s\n", strerror(errno) );
+		fprintf (stderr, "libutempter: sigaction: %s\n",
+			 strerror (errno));
 #endif
 		return 0;
 	} else
 	{
-		pid_t child;
-		int status = 0;
+		pid_t   child;
+		int     status = 0;
 
-		child = fork();
-		if ( !child )
+		child = fork ();
+		if (!child)
 		{
 			/* child */
-			if ( (dup2( master_fd, STDIN_FILENO ) < 0) || (dup2( master_fd, STDOUT_FILENO ) < 0) )
+			if ((dup2 (master_fd, STDIN_FILENO) < 0)
+			    || (dup2 (master_fd, STDOUT_FILENO) < 0))
 			{
 #ifdef	UTEMPTER_DEBUG
-				fprintf( stderr, "libutempter: dup2: %s\n", strerror(errno) );
+				fprintf (stderr, "libutempter: dup2: %s\n",
+					 strerror (errno));
 #endif
-				_exit( EXIT_FAILURE );
+				_exit (EXIT_FAILURE);
 			}
-			execv( argv[0], (char *const *)argv );
+			execv (argv[0], (char *const *) argv);
 #ifdef	UTEMPTER_DEBUG
-			fprintf( stderr, "libutempter: execv: %s\n", strerror(errno) );
+			fprintf (stderr, "libutempter: execv: %s\n",
+				 strerror (errno));
 #endif
-			_exit( EXIT_FAILURE );
-		} else if ( child < 0 )
+			_exit (EXIT_FAILURE);
+		} else if (child < 0)
 		{
 #ifdef	UTEMPTER_DEBUG
-			fprintf( stderr, "libutempter: fork: %s\n", strerror(errno) );
+			fprintf (stderr, "libutempter: fork: %s\n",
+				 strerror (errno));
 #endif
-			sigaction( SIGCHLD, &saved_action, 0 );
+			sigaction (SIGCHLD, &saved_action, 0);
 			return 0;
 		}
 
-		if ( TEMP_FAILURE_RETRY( waitpid( child, &status, 0 ) ) < 0 )
+		if (TEMP_FAILURE_RETRY (waitpid (child, &status, 0)) < 0)
 		{
 #ifdef	UTEMPTER_DEBUG
-			fprintf( stderr, "libutempter: waitpid: %s\n", strerror(errno) );
+			fprintf (stderr, "libutempter: waitpid: %s\n",
+				 strerror (errno));
 #endif
-			sigaction( SIGCHLD, &saved_action, 0 );
+			sigaction (SIGCHLD, &saved_action, 0);
 			return 0;
 		}
 
-		sigaction( SIGCHLD, &saved_action, 0 );
+		sigaction (SIGCHLD, &saved_action, 0);
 		return !status;
 	}
 }
 
-int	utempter_add_record( int master_fd, const char *hostname )
+int
+utempter_add_record (int master_fd, const char *hostname)
 {
-	const	char*	const	args[] = { UTEMPTER_PATH, "add", hostname, 0 };
-	int	status = execute_helper( master_fd, args );
+	const char *const args[] = { UTEMPTER_PATH, "add", hostname, 0 };
+	int     status = execute_helper (master_fd, args);
 
-	if ( status )
+	if (status)
 		saved_fd = master_fd;
 
 	return status;
 }
 
-int	utempter_remove_record( int master_fd )
+int
+utempter_remove_record (int master_fd)
 {
-	const	char*	const	args[] = { UTEMPTER_PATH, "del", 0 };
-	int	status = execute_helper( master_fd, args );
+	const char *const args[] = { UTEMPTER_PATH, "del", 0 };
+	int     status = execute_helper (master_fd, args);
 
-	if ( master_fd == saved_fd )
+	if (master_fd == saved_fd)
 		saved_fd = -1;
 
 	return status;
 }
 
-int	utempter_remove_added_record( void )
+int
+utempter_remove_added_record (void)
 {
-    if ( saved_fd < 0 )
+	if (saved_fd < 0)
 		return 0;
 	else
-		return utempter_remove_record( saved_fd );
+		return utempter_remove_record (saved_fd);
 }

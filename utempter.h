@@ -1,3 +1,4 @@
+
 /*
   $Id$
 
@@ -23,13 +24,13 @@
 #ifndef __UTEMPTER_H__
 #define __UTEMPTER_H__
 
-extern	int	utempter_add_record( int master_fd, const char *hostname );
-extern	int	utempter_remove_record( int master_fd );
-extern	int	utempter_remove_added_record( void );
+extern int utempter_add_record (int master_fd, const char *hostname);
+extern int utempter_remove_record (int master_fd);
+extern int utempter_remove_added_record (void);
 
 /* Provide compatibility with old redhat interface. */
 #define	addToUtmp( pty, hostname, master_fd )	utempter_add_record( (master_fd), (hostname) )
 #define	removeFromUtmp	utempter_remove_added_record
 #define	removeLineFromUtmp( pty, master_fd )	utempter_remove_record( master_fd )
 
-#endif	//	__UTEMPTER_H__
+#endif //      __UTEMPTER_H__

@@ -1,3 +1,4 @@
+
 /*
   $Id$
 
@@ -37,169 +38,183 @@
 #define	DEV_PREFIX	"/dev/"
 #define	DEV_PREFIX_LEN	(sizeof(DEV_PREFIX)-1)
 
-static	void
-usage(void)
+static void
+usage (void)
 {
 #ifdef	UTEMPTER_DEBUG
-	fprintf( stderr, "Usage: utempter add [<host>]\n"
-			 "       utempter del\n" );
+	fprintf (stderr, "Usage: utempter add [<host>]\n"
+		 "       utempter del\n");
 #endif
-	exit( EXIT_FAILURE );
+	exit (EXIT_FAILURE);
 }
 
-static	void
-validate_device( const char *device )
+static void
+validate_device (const char *device)
 {
-	int flags;
-	struct	stat	stb;
+	int     flags;
+	struct stat stb;
 
-	if ( strncmp( device, DEV_PREFIX, DEV_PREFIX_LEN ) )
+	if (strncmp (device, DEV_PREFIX, DEV_PREFIX_LEN))
 	{
 #ifdef	UTEMPTER_DEBUG
-		fprintf( stderr, "utempter: invalid device name\n" );
+		fprintf (stderr, "utempter: invalid device name\n");
 #endif
-		exit( EXIT_FAILURE );
+		exit (EXIT_FAILURE);
 	}
 
-	if ( (flags = fcntl( STDIN_FILENO, F_GETFL, 0 )) < 0 )
+	if ((flags = fcntl (STDIN_FILENO, F_GETFL, 0)) < 0)
 	{
 #ifdef	UTEMPTER_DEBUG
-		fprintf( stderr, "utempter: fcntl: %s\n", strerror(errno) );
+		fprintf (stderr, "utempter: fcntl: %s\n", strerror (errno));
 #endif
-		exit( EXIT_FAILURE );
+		exit (EXIT_FAILURE);
 	}
 
-	if ( (flags & O_RDWR) != O_RDWR )
+	if ((flags & O_RDWR) != O_RDWR)
 	{
 #ifdef	UTEMPTER_DEBUG
-		fprintf( stderr, "utempter: invalid descriptor mode\n" );
+		fprintf (stderr, "utempter: invalid descriptor mode\n");
 #endif
-		exit( EXIT_FAILURE );
+		exit (EXIT_FAILURE);
 	}
 
-	if ( stat( device, &stb ) < 0 )
+	if (stat (device, &stb) < 0)
 	{
 #ifdef	UTEMPTER_DEBUG
-		fprintf( stderr, "utempter: %s: %s\n", device, strerror(errno) );
+		fprintf (stderr, "utempter: %s: %s\n", device,
+			 strerror (errno));
 #endif
-		exit( EXIT_FAILURE );
+		exit (EXIT_FAILURE);
 	}
 
-	if ( getuid() != stb.st_uid )
+	if (getuid () != stb.st_uid)
 	{
 #ifdef	UTEMPTER_DEBUG
-		fprintf( stderr, "utempter: %s belongs to another user\n", device );
+		fprintf (stderr, "utempter: %s belongs to another user\n",
+			 device);
 #endif
-		exit( EXIT_FAILURE );
+		exit (EXIT_FAILURE);
 	}
 }
 
-static	int
-write_uwtmp_record( const char *user, const char *term, const char *host, pid_t pid, int add )
+static int
+write_uwtmp_record (const char *user, const char *term, const char *host,
+		    pid_t pid, int add)
 {
 	struct utmp ut;
-	int offset = strlen(term) - sizeof(ut.ut_id);
+	int     offset = strlen (term) - sizeof (ut.ut_id);
 
-	memset( &ut, 0, sizeof(ut) );
+	memset (&ut, 0, sizeof (ut));
 
-	strncpy( ut.ut_user, user, sizeof(ut.ut_user) );
+	strncpy (ut.ut_user, user, sizeof (ut.ut_user));
 
-	strncpy( ut.ut_line, term, sizeof(ut.ut_line) );
+	strncpy (ut.ut_line, term, sizeof (ut.ut_line));
 
-	if ( offset < 0 )
+	if (offset < 0)
 		offset = 0;
-	strncpy( ut.ut_id, term + offset, sizeof(ut.ut_id) );
+	strncpy (ut.ut_id, term + offset, sizeof (ut.ut_id));
 
-	if ( host ) 
-		strncpy( ut.ut_host, host, sizeof(ut.ut_host) );
+	if (host)
+		strncpy (ut.ut_host, host, sizeof (ut.ut_host));
 
-	if ( add )
+	if (add)
 		ut.ut_type = USER_PROCESS;
 	else
 		ut.ut_type = DEAD_PROCESS;
 
 	ut.ut_pid = pid;
 
-	gettimeofday( &ut.ut_tv, 0 );
+	gettimeofday (&ut.ut_tv, 0);
 
-	setutent();
-	if ( !pututline( &ut ) )
+	setutent ();
+	if (!pututline (&ut))
 	{
 #ifdef	UTEMPTER_DEBUG
-		fprintf( stderr, "utempter: pututline: %s\n", strerror(errno) );
+		fprintf (stderr, "utempter: pututline: %s\n",
+			 strerror (errno));
 #endif
-		exit( EXIT_FAILURE );
+		exit (EXIT_FAILURE);
 	}
-	endutent();
+	endutent ();
 
-	updwtmp( _PATH_WTMP, &ut );
+	updwtmp (_PATH_WTMP, &ut);
 
 #ifdef	UTEMPTER_DEBUG
-	fprintf( stderr, "utempter: DEBUG: utmp/wtmp record %s for terminal '%s'\n",
-		add ? "added" : "removed", term );
+	fprintf (stderr,
+		 "utempter: DEBUG: utmp/wtmp record %s for terminal '%s'\n",
+		 add ? "added" : "removed", term);
 #endif
 	return EXIT_SUCCESS;
 }
 
 int
-main( int argc, const char *argv[] )
+main (int argc, const char *argv[])
 {
 	const char *device, *host;
 	struct passwd *pw;
-	pid_t pid;
-	int add = 0, i;
- 
-	for ( i = 0; i <= 2; ++i )
+	pid_t   pid;
+	int     add = 0, i;
+
+	for (i = 0; i <= 2; ++i)
 	{
 		struct stat sb;
-		if ( fstat( i, &sb ) < 0 )
+
+		if (fstat (i, &sb) < 0)
 			/* At this stage, we shouldn't even report error. */
-			exit( EXIT_FAILURE );
+			exit (EXIT_FAILURE);
 	}
 
-	if ( argc < 2 ) usage();
+	if (argc < 2)
+		usage ();
 
-	if ( !strcmp( argv[1], "add" ) )
+	if (!strcmp (argv[1], "add"))
 	{
-		if ( argc > 3 ) usage();
+		if (argc > 3)
+			usage ();
 		add = 1;
-	} else if ( !strcmp( argv[1], "del" ) )
+	} else if (!strcmp (argv[1], "del"))
 	{
-		if ( argc != 2 ) usage();
+		if (argc != 2)
+			usage ();
 		add = 0;
 	} else
-		usage();
+		usage ();
 
 	host = argv[2];
 
-	pid = getppid();
-	if ( pid == 1 )
+	pid = getppid ();
+	if (pid == 1)
 	{
 #ifdef	UTEMPTER_DEBUG
-		fprintf( stderr, "utempter: parent process should not be init\n" );
+		fprintf (stderr,
+			 "utempter: parent process should not be init\n");
 #endif
-		exit( EXIT_FAILURE );
+		exit (EXIT_FAILURE);
 	}
 
-	pw = getpwuid( getuid() );
-	if ( !pw || !pw->pw_name )
+	pw = getpwuid (getuid ());
+	if (!pw || !pw->pw_name)
 	{
 #ifdef	UTEMPTER_DEBUG
-		fprintf( stderr, "utempter: cannot find valid user with uid=%u\n", getuid() );
+		fprintf (stderr,
+			 "utempter: cannot find valid user with uid=%u\n",
+			 getuid ());
 #endif
-		exit( EXIT_FAILURE );
+		exit (EXIT_FAILURE);
 	}
 
-	device = ptsname( STDIN_FILENO );
-	if ( !device )
+	device = ptsname (STDIN_FILENO);
+	if (!device)
 	{
 #ifdef	UTEMPTER_DEBUG
-		fprintf( stderr, "utempter: cannot find slave pty: %s\n", strerror(errno) );
+		fprintf (stderr, "utempter: cannot find slave pty: %s\n",
+			 strerror (errno));
 #endif
-		exit( EXIT_FAILURE );
+		exit (EXIT_FAILURE);
 	}
 
-	validate_device( device );
+	validate_device (device);
 
-	return write_uwtmp_record( pw->pw_name, device + DEV_PREFIX_LEN, host, pid, add );
+	return write_uwtmp_record (pw->pw_name, device + DEV_PREFIX_LEN, host,
+				   pid, add);
 }
