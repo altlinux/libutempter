@@ -83,15 +83,16 @@ do_child (int master_fd, const char *path, char *const *argv)
 static int
 execute_helper (int master_fd, const char *const argv[])
 {
-	sigset_t new_set, old_set;
+	struct sigaction saved_action, action;
 
-	sigemptyset (&new_set);
-	sigaddset (&new_set, SIGCHLD);
+	action.sa_handler = SIG_DFL;
+	action.sa_flags = SA_RESTART;
+	sigemptyset (&action.sa_mask);
 
-	if (sigprocmask (SIG_BLOCK, &new_set, &old_set) < 0)
+	if (sigaction (SIGCHLD, &action, &saved_action) < 0)
 	{
 #ifdef	UTEMPTER_DEBUG
-		fprintf (stderr, "libutempter: sigprocmask: %s\n",
+		fprintf (stderr, "libutempter: sigaction: %s\n",
 			 strerror (errno));
 #endif
 		return 0;
@@ -123,8 +124,7 @@ execute_helper (int master_fd, const char *const argv[])
 		}
 
 	      ret:
-		if (!sigismember (&old_set, SIGCHLD))
-			sigprocmask (SIG_UNBLOCK, &new_set, 0);
+		sigaction (SIGCHLD, &saved_action, 0);
 		return !status;
 	}
 }
