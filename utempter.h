@@ -2,7 +2,7 @@
 /*
   $Id$
 
-  Copyright (C) 2001  Dmitry V. Levin <ldv@fandra.org>
+  Copyright (C) 2001,2002  Dmitry V. Levin <ldv@altlinux.org>
 
   Interface for utempter library.
 
@@ -31,6 +31,7 @@ extern  "C" {
 extern int utempter_add_record (int master_fd, const char *hostname);
 extern int utempter_remove_record (int master_fd);
 extern int utempter_remove_added_record (void);
+extern int utempter_set_helper (const char *pathname);
 
 #ifdef	__cplusplus
 }

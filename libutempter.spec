@@ -1,9 +1,9 @@
 # $Id$
 
 Name: libutempter
-Version: 1.0.5
+Version: 1.0.6
 Release: alt1
-%define helperdir %_libdir/utempter
+%define helperdir %_libexecdir/utempter
 
 Summary: A privileged helper for utmp/wtmp updates
 License: LGPL
@@ -55,7 +55,6 @@ statically linked utempter-based software.
 /usr/sbin/groupadd -r -f utempter >/dev/null 2>&1
 
 %post -p /sbin/ldconfig
-
 %postun -p /sbin/ldconfig
 
 %files
@@ -72,11 +71,14 @@ statically linked utempter-based software.
 %_libdir/*.a
 
 %changelog
+* Tue May 21 2002 Dmitry V. Levin <ldv@altlinux.org> 1.0.6-alt1
+- New function: utempter_set_helper.
+
 * Mon Dec 10 2001 Dmitry V. Levin <ldv@alt-linux.org> 1.0.5-alt1
 - iface.c: block SIGCHLD instead of redefine signal handler.
 
 * Wed Nov 21 2001 Dmitry V. Levin <ldv@alt-linux.org> 1.0.4-alt1
-- utempter.h: do not use __attribute ((unused)).
+- utempter.h: do not use "__attribute ((unused))".
 
 * Tue Nov 13 2001 Dmitry V. Levin <ldv@alt-linux.org> 1.0.3-alt1
 - Added compatibility declarations to ease upgrade of old applications.
