@@ -21,19 +21,20 @@
 
 PROJECT = utempter
 VERSION = $(shell grep ^Version: libutempter.spec |head -1 |awk '{print $$2}')
-MAJOR = $(shell echo $(VERSION) |cut -d. -f1)
+MAJOR = 0
 
 SHAREDLIB = lib$(PROJECT).so
 SONAME = $(SHAREDLIB).$(MAJOR)
-SONAME_COMPAT = $(SHAREDLIB).0
+SONAME_COMPAT = $(SHAREDLIB).1
 STATICLIB = lib$(PROJECT).a
 
-TARGETS = $(PROJECT) $(SHAREDLIB) $(STATICLIB) $(SONAME_COMPAT)
+TARGETS = $(PROJECT) $(SHAREDLIB) $(STATICLIB)
 
 INSTALL = install
 libdir = /usr/lib
 libexecdir = /usr/lib
 includedir = /usr/include
+DESTDIR =
 
 CFLAGS = $(RPM_OPT_FLAGS) -DLIBEXECDIR=\"$(libexecdir)\"
 
@@ -43,10 +44,7 @@ all: $(TARGETS)
 	$(COMPILE.c) -fPIC $< $(OUTPUT_OPTION)
 
 $(SHAREDLIB): iface.os
-	$(LINK.o) -shared -Wl,-soname,$(SONAME) -lc $+ $(OUTPUT_OPTION)
-
-$(SONAME_COMPAT): iface0.os $(SHAREDLIB)
-	$(LINK.o) -shared -Wl,-soname,$(SONAME_COMPAT) -lc -L. -l$(PROJECT) $+ $(OUTPUT_OPTION)
+	$(LINK.o) -shared -Wl,-soname,$(SONAME) -Wl,--version-script=lib$(PROJECT).map -lc $+ $(OUTPUT_OPTION)
 
 $(STATICLIB): iface.o
 	$(AR) $(ARFLAGS) $@ $+
@@ -55,13 +53,14 @@ $(STATICLIB): iface.o
 iface.o: iface.c utempter.h
 
 install:
-	$(INSTALL) -D -m2711 $(PROJECT) $(libexecdir)/$(PROJECT)/$(PROJECT)
-	$(INSTALL) -D -m644 $(PROJECT).h $(includedir)/$(PROJECT).h
-	$(INSTALL) -D -m755 $(SHAREDLIB) $(libdir)/$(SHAREDLIB).$(VERSION)
-	$(INSTALL) -D -m755 $(SONAME_COMPAT) $(libdir)/$(SONAME_COMPAT)
-	$(INSTALL) -D -m644 $(STATICLIB) $(libdir)/$(STATICLIB)
-	ln -s $(SHAREDLIB).$(VERSION) $(libdir)/$(SHAREDLIB).$(MAJOR)
-	ln -s $(SHAREDLIB).$(MAJOR) $(libdir)/$(SHAREDLIB)
+	$(INSTALL) -pD -m2711 $(PROJECT) $(DESTDIR)$(libexecdir)/$(PROJECT)/$(PROJECT)
+	$(INSTALL) -pD -m644 $(PROJECT).h $(DESTDIR)$(includedir)/$(PROJECT).h
+	$(INSTALL) -pD -m755 $(SHAREDLIB) $(DESTDIR)$(libdir)/$(SHAREDLIB).$(VERSION)
+	$(INSTALL) -pD -m755 $(SONAME_COMPAT) $(DESTDIR)$(libdir)/$(SONAME_COMPAT)
+	$(INSTALL) -pD -m644 $(STATICLIB) $(DESTDIR)$(libdir)/$(STATICLIB)
+	ln -s $(SHAREDLIB).$(VERSION) $(DESTDIR)$(libdir)/$(SONAME)
+	ln -s $(SONAME) $(DESTDIR)$(libdir)/$(SONAME_COMPAT)
+	ln -s $(SONAME) $(DESTDIR)$(libdir)/$(SHAREDLIB)
 
 clean:
-	$(RM) $(TARGETS) iface.o iface.os iface0.os core *~
+	$(RM) $(TARGETS) iface.o iface.os core *~

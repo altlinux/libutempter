@@ -1,7 +1,7 @@
 # $Id$
 
 Name: libutempter
-Version: 1.0.7
+Version: 1.1.0
 Release: alt1
 %define helperdir %_libexecdir/utempter
 
@@ -12,7 +12,7 @@ Group: System/Libraries
 Source: %name-%version.tar.bz2
 
 PreReq: shadow-utils
-Provides: utempter = 0.5.2
+Provides: libutempter.so.1, utempter = 0.5.2
 Obsoletes: utempter
 
 %description
@@ -48,7 +48,7 @@ statically linked utempter-based software.
 %make_build
 
 %install
-%makeinstall
+make install
 
 %pre
 /usr/sbin/groupadd -r -f utmp >/dev/null 2>&1
@@ -71,6 +71,9 @@ statically linked utempter-based software.
 %_libdir/*.a
 
 %changelog
+* Mon Dec 23 2002 Dmitry V. Levin <ldv@altlinux.org> 1.1.0-alt1
+- Changed soname back to libutempter.so.0, introduced versioning.
+
 * Tue Sep 24 2002 Dmitry V. Levin <ldv@altlinux.org> 1.0.7-alt1
 - If helper execution fails, try saved group ID.
 
