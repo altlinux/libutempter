@@ -63,4 +63,4 @@ install:
 	ln -s $(SHAREDLIB).$(MAJOR) $(libdir)/$(SHAREDLIB)
 
 clean:
-	$(RM) $(TARGETS) iface.o iface.os
+	$(RM) $(TARGETS) iface.o iface.os iface0.os
