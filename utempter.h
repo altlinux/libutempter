@@ -24,9 +24,17 @@
 #ifndef __UTEMPTER_H__
 #define __UTEMPTER_H__
 
+#ifdef	__cplusplus
+extern  "C" {
+#endif
+
 extern int utempter_add_record (int master_fd, const char *hostname);
 extern int utempter_remove_record (int master_fd);
 extern int utempter_remove_added_record (void);
+
+#ifdef	__cplusplus
+}
+#endif
 
 /* Provide compatibility with old redhat interface. */
 
