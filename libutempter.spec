@@ -57,6 +57,9 @@ make install DESTDIR="$RPM_BUILD_ROOT"
 %post -p %post_ldconfig
 %postun -p %postun_ldconfig
 
+%triggerpostun -- libutempter < 1.1.0
+%__ln_s libutempter.so.0 %_libdir/libutempter.so.1
+
 %files
 %_libdir/*.so.*
 %attr(710,root,utempter) %dir %helperdir
