@@ -1,7 +1,7 @@
 # $Id$
 
 Name: libutempter
-Version: 1.0.3
+Version: 1.0.4
 Release: alt1
 %define helperdir %_libdir/utempter
 
@@ -72,6 +72,9 @@ statically linked utempter-based software.
 %_libdir/*.a
 
 %changelog
+* Wed Nov 21 2001 Dmitry V. Levin <ldv@alt-linux.org> 1.0.4-alt1
+- utempter.h: do not use __attribute ((unused)).
+
 * Tue Nov 13 2001 Dmitry V. Levin <ldv@alt-linux.org> 1.0.3-alt1
 - Added compatibility declarations to ease upgrade of old applications.
 - Added small README file.
