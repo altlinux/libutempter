@@ -4,5 +4,5 @@ screen and xterm to record user sessions to utmp and wtmp files.
 The utempter is a privileged helper used by libutempter library to manipulate
 utmp and wtmp files.
 
-This implementation is based on ideas from RedHat's utempter (version 0.5.2
-at the moment of writing).
+This implementation is based on ideas from RedHat's utempter by Erik Troan
+(version 0.5.2 at the moment of writing).
