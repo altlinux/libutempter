@@ -31,7 +31,7 @@ extern  "C" {
 extern int utempter_add_record (int master_fd, const char *hostname);
 extern int utempter_remove_record (int master_fd);
 extern int utempter_remove_added_record (void);
-extern int utempter_set_helper (const char *pathname);
+extern void utempter_set_helper (const char *pathname);
 
 #ifdef	__cplusplus
 }

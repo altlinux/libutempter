@@ -32,12 +32,53 @@
 #include <sys/wait.h>
 #include <sys/types.h>
 
+extern int getresgid (gid_t *rgid, gid_t *egid, gid_t *sgid);
+
 #include "utempter.h"
 
 #define	UTEMPTER_DEFAULT_PATHNAME	LIBEXECDIR "/utempter/utempter"
 
 static const char *utempter_pathname;
 static int saved_fd = -1;
+
+static void
+__attribute__ ((__noreturn__))
+do_child (int master_fd, const char *path, char *const *argv)
+{
+	if ((dup2 (master_fd, STDIN_FILENO) != STDIN_FILENO)
+	    || (dup2 (master_fd, STDOUT_FILENO) != STDOUT_FILENO))
+	{
+#ifdef	UTEMPTER_DEBUG
+		fprintf (stderr, "libutempter: dup2: %s\n", strerror (errno));
+#endif
+		_exit (EXIT_FAILURE);
+	}
+
+	execv (path, argv);
+#ifdef	UTEMPTER_DEBUG
+	fprintf (stderr, "libutempter: execv: %s\n", strerror (errno));
+#endif
+
+	while (EACCES == errno)
+	{
+		/* try saved group ID */
+		gid_t rgid, egid, sgid;
+
+		if (getresgid (&rgid, &egid, &sgid))
+			break;
+
+		if (sgid == egid)
+			break;
+
+		if (setgid (sgid))
+			break;
+
+		execv (path, argv);
+		break;
+	}
+
+	_exit (EXIT_FAILURE);
+}
 
 static int
 execute_helper (int master_fd, const char *const argv[])
@@ -62,23 +103,7 @@ execute_helper (int master_fd, const char *const argv[])
 		child = fork ();
 		if (!child)
 		{
-			/* child */
-			if ((dup2 (master_fd, STDIN_FILENO) != STDIN_FILENO)
-			    || (dup2 (master_fd, STDOUT_FILENO) !=
-				STDOUT_FILENO))
-			{
-#ifdef	UTEMPTER_DEBUG
-				fprintf (stderr, "libutempter: dup2: %s\n",
-					 strerror (errno));
-#endif
-				_exit (EXIT_FAILURE);
-			}
-			execv (argv[0], (char *const *) argv);
-#ifdef	UTEMPTER_DEBUG
-			fprintf (stderr, "libutempter: execv: %s\n",
-				 strerror (errno));
-#endif
-			_exit (EXIT_FAILURE);
+			do_child (master_fd, argv[0], (char *const *) argv);
 		} else if (child < 0)
 		{
 #ifdef	UTEMPTER_DEBUG
@@ -109,7 +134,7 @@ utempter_add_record (int master_fd, const char *hostname)
 {
 	const char *const args[] =
 		{ utempter_pathname ? : UTEMPTER_DEFAULT_PATHNAME, "add",
-     hostname, 0 };
+		  hostname, 0 };
 	int     status = execute_helper (master_fd, args);
 
 	if (status)
@@ -140,7 +165,7 @@ utempter_remove_added_record (void)
 		return utempter_remove_record (saved_fd);
 }
 
-int
+void
 utempter_set_helper (const char *pathname)
 {
 	utempter_pathname = pathname;

@@ -1,7 +1,7 @@
 # $Id$
 
 Name: libutempter
-Version: 1.0.6
+Version: 1.0.7
 Release: alt1
 %define helperdir %_libexecdir/utempter
 
@@ -54,8 +54,8 @@ statically linked utempter-based software.
 /usr/sbin/groupadd -r -f utmp >/dev/null 2>&1
 /usr/sbin/groupadd -r -f utempter >/dev/null 2>&1
 
-%post -p /sbin/ldconfig
-%postun -p /sbin/ldconfig
+%post -p %post_ldconfig
+%postun -p %postun_ldconfig
 
 %files
 %_libdir/*.so.*
@@ -71,6 +71,9 @@ statically linked utempter-based software.
 %_libdir/*.a
 
 %changelog
+* Tue Sep 24 2002 Dmitry V. Levin <ldv@altlinux.org> 1.0.7-alt1
+- If helper execution fails, try saved group ID.
+
 * Tue May 21 2002 Dmitry V. Levin <ldv@altlinux.org> 1.0.6-alt1
 - New function: utempter_set_helper.
 
