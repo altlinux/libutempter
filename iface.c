@@ -97,7 +97,7 @@ execute_helper (int master_fd, const char *const argv[])
 			status = 1;
 		}
 
-		ret:
+	      ret:
 		if (!sigismember (&old_set, SIGCHLD))
 			sigprocmask (SIG_UNBLOCK, &new_set, 0);
 		return !status;
@@ -107,7 +107,9 @@ execute_helper (int master_fd, const char *const argv[])
 int
 utempter_add_record (int master_fd, const char *hostname)
 {
-	const char *const args[] = { utempter_pathname ?: UTEMPTER_DEFAULT_PATHNAME, "add", hostname, 0 };
+	const char *const args[] =
+		{ utempter_pathname ? : UTEMPTER_DEFAULT_PATHNAME, "add",
+     hostname, 0 };
 	int     status = execute_helper (master_fd, args);
 
 	if (status)
@@ -119,7 +121,8 @@ utempter_add_record (int master_fd, const char *hostname)
 int
 utempter_remove_record (int master_fd)
 {
-	const char *const args[] = { utempter_pathname ?: UTEMPTER_DEFAULT_PATHNAME, "del", 0 };
+	const char *const args[] =
+		{ utempter_pathname ? : UTEMPTER_DEFAULT_PATHNAME, "del", 0 };
 	int     status = execute_helper (master_fd, args);
 
 	if (master_fd == saved_fd)
