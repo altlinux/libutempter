@@ -1,6 +1,6 @@
 #
 # $Id$
-# Copyright (C) 2001,2002  Dmitry V. Levin <ldv@altlinux.org>
+# Copyright (C) 2001-2004  Dmitry V. Levin <ldv@altlinux.org>
 # 
 # Makefile for the utempter project
 #
