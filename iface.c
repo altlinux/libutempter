@@ -41,30 +41,30 @@ static int saved_fd = -1;
 static int
 execute_helper (int master_fd, const char *const argv[])
 {
-	struct sigaction saved_action, action;
+	sigset_t new_set, old_set;
 
-	action.sa_handler = SIG_IGN;
-	sigemptyset (&action.sa_mask);
-	action.sa_flags = 0;
+	sigemptyset (&new_set);
+	sigaddset (&new_set, SIGCHLD);
 
-	if (sigaction (SIGCHLD, &action, &saved_action) < 0)
+	if (sigprocmask (SIG_BLOCK, &new_set, &old_set) < 0)
 	{
 #ifdef	UTEMPTER_DEBUG
-		fprintf (stderr, "libutempter: sigaction: %s\n",
+		fprintf (stderr, "libutempter: sigprocmask: %s\n",
 			 strerror (errno));
 #endif
 		return 0;
 	} else
 	{
 		pid_t   child;
-		int     status = 0;
+		int     status = 1;
 
 		child = fork ();
 		if (!child)
 		{
 			/* child */
-			if ((dup2 (master_fd, STDIN_FILENO) < 0)
-			    || (dup2 (master_fd, STDOUT_FILENO) < 0))
+			if ((dup2 (master_fd, STDIN_FILENO) != STDIN_FILENO)
+			    || (dup2 (master_fd, STDOUT_FILENO) !=
+				STDOUT_FILENO))
 			{
 #ifdef	UTEMPTER_DEBUG
 				fprintf (stderr, "libutempter: dup2: %s\n",
@@ -84,8 +84,7 @@ execute_helper (int master_fd, const char *const argv[])
 			fprintf (stderr, "libutempter: fork: %s\n",
 				 strerror (errno));
 #endif
-			sigaction (SIGCHLD, &saved_action, 0);
-			return 0;
+			goto ret;
 		}
 
 		if (TEMP_FAILURE_RETRY (waitpid (child, &status, 0)) < 0)
@@ -97,7 +96,9 @@ execute_helper (int master_fd, const char *const argv[])
 			status = 1;
 		}
 
-		sigaction (SIGCHLD, &saved_action, 0);
+		ret:
+		if (!sigismember (&old_set, SIGCHLD))
+			sigprocmask (SIG_UNBLOCK, &new_set, 0);
 		return !status;
 	}
 }
