@@ -26,6 +26,7 @@ MAJOR = 0
 SHAREDLIB = lib$(PROJECT).so
 SONAME = $(SHAREDLIB).$(MAJOR)
 STATICLIB = lib$(PROJECT).a
+MAP = lib$(PROJECT).map
 
 TARGETS = $(PROJECT) $(SHAREDLIB) $(STATICLIB)
 
@@ -42,11 +43,11 @@ all: $(TARGETS)
 %.os: %.c
 	$(COMPILE.c) -fPIC $< $(OUTPUT_OPTION)
 
-$(SHAREDLIB): iface.os
-	$(LINK.o) -shared -Wl,-soname,$(SONAME) -Wl,--version-script=lib$(PROJECT).map -lc $+ $(OUTPUT_OPTION)
+$(SHAREDLIB): iface.os $(MAP)
+	$(LINK.o) -shared -Wl,-soname,$(SONAME) -Wl,--version-script=$(MAP) -lc $< $(OUTPUT_OPTION)
 
 $(STATICLIB): iface.o
-	$(AR) $(ARFLAGS) $@ $+
+	$(AR) $(ARFLAGS) $@ $<
 	-ranlib $@
 
 iface.o: iface.c utempter.h
