@@ -1,6 +1,6 @@
 #
 # $Id$
-# Copyright (C) 2001  Dmitry V. Levin <ldv@fandra.org>
+# Copyright (C) 2001,2002  Dmitry V. Levin <ldv@altlinux.org>
 # 
 # Makefile for the utempter project
 #
@@ -28,13 +28,14 @@ SONAME = $(SHAREDLIB).$(MAJOR)
 SONAME_COMPAT = $(SHAREDLIB).0
 STATICLIB = lib$(PROJECT).a
 
-CFLAGS = $(RPM_OPT_FLAGS)
-
 TARGETS = $(PROJECT) $(SHAREDLIB) $(STATICLIB) $(SONAME_COMPAT)
 
 INSTALL = install
 libdir = /usr/lib
+libexecdir = /usr/lib
 includedir = /usr/include
+
+CFLAGS = $(RPM_OPT_FLAGS) -DLIBEXECDIR=\"$(libexecdir)\"
 
 all: $(TARGETS)
 
@@ -54,7 +55,7 @@ $(STATICLIB): iface.o
 iface.o: iface.c utempter.h
 
 install:
-	$(INSTALL) -D -m2711 $(PROJECT) $(libdir)/$(PROJECT)/$(PROJECT)
+	$(INSTALL) -D -m2711 $(PROJECT) $(libexecdir)/$(PROJECT)/$(PROJECT)
 	$(INSTALL) -D -m644 $(PROJECT).h $(includedir)/$(PROJECT).h
 	$(INSTALL) -D -m755 $(SHAREDLIB) $(libdir)/$(SHAREDLIB).$(VERSION)
 	$(INSTALL) -D -m755 $(SONAME_COMPAT) $(libdir)/$(SONAME_COMPAT)
