@@ -2,7 +2,7 @@
 /*
   $Id$
 
-  Copyright (C) 2001-2003  Dmitry V. Levin <ldv@altlinux.org>
+  Copyright (C) 2001-2005  Dmitry V. Levin <ldv@altlinux.org>
 
   Utempter library interface.
 
@@ -21,7 +21,9 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#define _GNU_SOURCE	1
+#ifndef _GNU_SOURCE
+# define _GNU_SOURCE	1
+#endif
 
 #include <errno.h>
 #include <stdio.h>
@@ -32,68 +34,74 @@
 #include <sys/wait.h>
 #include <sys/types.h>
 
-extern int getresgid (gid_t *rgid, gid_t *egid, gid_t *sgid);
-
 #include "utempter.h"
+
+#ifndef TEMP_FAILURE_RETRY
+# define TEMP_FAILURE_RETRY(expression) \
+  (__extension__							      \
+    ({ long int __result;						      \
+       do __result = (long int) (expression);				      \
+       while (__result == -1L && errno == EINTR);			      \
+       __result; }))
+#endif
 
 #define	UTEMPTER_DEFAULT_PATHNAME	LIBEXECDIR "/utempter/utempter"
 
 static const char *utempter_pathname;
 static int saved_fd = -1;
 
-static void
-__attribute__ ((__noreturn__))
-do_child (int master_fd, const char *path, char *const *argv)
+static void __attribute__ ((__noreturn__))
+do_child(int master_fd, const char *path, char *const *argv)
 {
-	if ((dup2 (master_fd, STDIN_FILENO) != STDIN_FILENO)
-	    || (dup2 (master_fd, STDOUT_FILENO) != STDOUT_FILENO))
+	if ((dup2(master_fd, STDIN_FILENO) != STDIN_FILENO)
+	    || (dup2(master_fd, STDOUT_FILENO) != STDOUT_FILENO))
 	{
 #ifdef	UTEMPTER_DEBUG
-		fprintf (stderr, "libutempter: dup2: %s\n", strerror (errno));
+		fprintf(stderr, "libutempter: dup2: %s\n", strerror(errno));
 #endif
-		_exit (EXIT_FAILURE);
+		_exit(EXIT_FAILURE);
 	}
 
-	execv (path, argv);
+	execv(path, argv);
 #ifdef	UTEMPTER_DEBUG
-	fprintf (stderr, "libutempter: execv: %s\n", strerror (errno));
+	fprintf(stderr, "libutempter: execv: %s\n", strerror(errno));
 #endif
 
 	while (EACCES == errno)
 	{
 		/* try saved group ID */
-		gid_t rgid, egid, sgid;
+		gid_t   rgid, egid, sgid;
 
-		if (getresgid (&rgid, &egid, &sgid))
+		if (getresgid(&rgid, &egid, &sgid))
 			break;
 
 		if (sgid == egid)
 			break;
 
-		if (setgid (sgid))
+		if (setgid(sgid))
 			break;
 
-		execv (path, argv);
+		(void) execv(path, argv);
 		break;
 	}
 
-	_exit (EXIT_FAILURE);
+	_exit(EXIT_FAILURE);
 }
 
 static int
-execute_helper (int master_fd, const char *const argv[])
+execute_helper(int master_fd, const char *const argv[])
 {
 	struct sigaction saved_action, action;
 
 	action.sa_handler = SIG_DFL;
 	action.sa_flags = SA_RESTART;
-	sigemptyset (&action.sa_mask);
+	sigemptyset(&action.sa_mask);
 
-	if (sigaction (SIGCHLD, &action, &saved_action) < 0)
+	if (sigaction(SIGCHLD, &action, &saved_action) < 0)
 	{
 #ifdef	UTEMPTER_DEBUG
-		fprintf (stderr, "libutempter: sigaction: %s\n",
-			 strerror (errno));
+		fprintf(stderr, "libutempter: sigaction: %s\n",
+			strerror(errno));
 #endif
 		return 0;
 	} else
@@ -101,30 +109,30 @@ execute_helper (int master_fd, const char *const argv[])
 		pid_t   child;
 		int     status = 1;
 
-		child = fork ();
+		child = fork();
 		if (!child)
 		{
-			do_child (master_fd, argv[0], (char *const *) argv);
+			do_child(master_fd, argv[0], (char *const *) argv);
 		} else if (child < 0)
 		{
 #ifdef	UTEMPTER_DEBUG
-			fprintf (stderr, "libutempter: fork: %s\n",
-				 strerror (errno));
+			fprintf(stderr, "libutempter: fork: %s\n",
+				strerror(errno));
 #endif
 			goto ret;
 		}
 
-		if (TEMP_FAILURE_RETRY (waitpid (child, &status, 0)) < 0)
+		if (TEMP_FAILURE_RETRY(waitpid(child, &status, 0)) < 0)
 		{
 #ifdef	UTEMPTER_DEBUG
-			fprintf (stderr, "libutempter: waitpid: %s\n",
-				 strerror (errno));
+			fprintf(stderr, "libutempter: waitpid: %s\n",
+				strerror(errno));
 #endif
 			status = 1;
 		}
 
 	      ret:
-		sigaction (SIGCHLD, &saved_action, 0);
+		(void) sigaction(SIGCHLD, &saved_action, 0);
 		return !status;
 	}
 }
@@ -132,12 +140,12 @@ execute_helper (int master_fd, const char *const argv[])
 /* New interface. */
 
 int
-utempter_add_record (int master_fd, const char *hostname)
+utempter_add_record(int master_fd, const char *hostname)
 {
 	const char *const args[] =
 		{ utempter_pathname ? : UTEMPTER_DEFAULT_PATHNAME, "add",
 		  hostname, 0 };
-	int     status = execute_helper (master_fd, args);
+	int     status = execute_helper(master_fd, args);
 
 	if (status)
 		saved_fd = master_fd;
@@ -146,11 +154,11 @@ utempter_add_record (int master_fd, const char *hostname)
 }
 
 int
-utempter_remove_record (int master_fd)
+utempter_remove_record(int master_fd)
 {
 	const char *const args[] =
 		{ utempter_pathname ? : UTEMPTER_DEFAULT_PATHNAME, "del", 0 };
-	int     status = execute_helper (master_fd, args);
+	int     status = execute_helper(master_fd, args);
 
 	if (master_fd == saved_fd)
 		saved_fd = -1;
@@ -159,16 +167,16 @@ utempter_remove_record (int master_fd)
 }
 
 int
-utempter_remove_added_record (void)
+utempter_remove_added_record(void)
 {
 	if (saved_fd < 0)
 		return 0;
 	else
-		return utempter_remove_record (saved_fd);
+		return utempter_remove_record(saved_fd);
 }
 
 void
-utempter_set_helper (const char *pathname)
+utempter_set_helper(const char *pathname)
 {
 	utempter_pathname = pathname;
 }
@@ -176,19 +184,20 @@ utempter_set_helper (const char *pathname)
 /* Old interface. */
 
 void
-addToUtmp (const char *pty, const char *hostname, int master_fd)
+addToUtmp(__attribute__ ((unused)) const char *pty, const char *hostname,
+	  int master_fd)
 {
-	utempter_add_record (master_fd, hostname);
+	(void) utempter_add_record(master_fd, hostname);
 }
 
 void
-removeFromUtmp (void)
+removeFromUtmp(void)
 {
-	utempter_remove_added_record ();
+	(void) utempter_remove_added_record();
 }
 
 void
-removeLineFromUtmp (const char *pty, int master_fd)
+removeLineFromUtmp(__attribute__ ((unused)) const char *pty, int master_fd)
 {
-	utempter_remove_record (master_fd);
+	(void) utempter_remove_record(master_fd);
 }
