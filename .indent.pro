@@ -24,3 +24,5 @@
 -nprs
 -psl
 -ts8
+-npcs
+-cbi0
