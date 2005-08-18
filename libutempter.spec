@@ -1,7 +1,7 @@
 # $Id$
 
 Name: libutempter
-Version: 1.1.2
+Version: 1.1.3
 Release: alt1
 
 Summary: A privileged helper for utmp/wtmp updates
@@ -73,6 +73,10 @@ make install DESTDIR="$RPM_BUILD_ROOT" \
 %_libdir/*.a
 
 %changelog
+* Thu Aug 18 2005 Dmitry V. Levin <ldv@altlinux.org> 1.1.3-alt1
+- Restricted list of global symbols exported by the library.
+- Updated FSF postal address.
+
 * Sun Sep 05 2004 Dmitry V. Levin <ldv@altlinux.org> 1.1.2-alt1
 - Added multilib support.
 
