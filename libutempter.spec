@@ -53,8 +53,8 @@ make install DESTDIR="$RPM_BUILD_ROOT" \
 	libdir="%_libdir" libexecdir="%_libexecdir"
 
 %pre
-/usr/sbin/groupadd -r -f utmp >/dev/null 2>&1
-/usr/sbin/groupadd -r -f utempter >/dev/null 2>&1
+/usr/sbin/groupadd -r -f utmp
+/usr/sbin/groupadd -r -f utempter
 
 %post -p %post_ldconfig
 %postun -p %postun_ldconfig
