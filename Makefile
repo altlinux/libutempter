@@ -20,7 +20,7 @@
 #
 
 PROJECT = utempter
-VERSION = $(shell grep ^Version: libutempter.spec |head -1 |awk '{print $$2}')
+VERSION = $(shell sed '/^Version: */!d;s///;q' libutempter.spec)
 MAJOR = 0
 
 SHAREDLIB = lib$(PROJECT).so
@@ -36,12 +36,21 @@ libexecdir = /usr/lib
 includedir = /usr/include
 DESTDIR =
 
-CFLAGS = $(RPM_OPT_FLAGS) -DLIBEXECDIR=\"$(libexecdir)\"
+WARNINGS = -W -Wall -Waggregate-return -Wcast-align -Wconversion \
+	-Wdisabled-optimization -Wmissing-declarations \
+	-Wmissing-format-attribute -Wmissing-noreturn -Wmissing-prototypes \
+	-Wpointer-arith -Wredundant-decls -Wshadow -Wstrict-prototypes \
+	-Wwrite-strings
+CPPFLAGS = -std=gnu99 $(WARNINGS) -DLIBEXECDIR=\"$(libexecdir)\"
+CFLAGS = $(RPM_OPT_FLAGS)
 
 all: $(TARGETS)
 
 %.os: %.c
 	$(COMPILE.c) -fPIC $< $(OUTPUT_OPTION)
+
+$(PROJECT): utempter.c
+	$(LINK.c) -Wl,-z,now,-stats $< $(OUTPUT_OPTION)
 
 $(SHAREDLIB): iface.os $(MAP)
 	$(LINK.o) -shared -Wl,-soname,$(SONAME),--version-script=$(MAP),-stats -lc $< $(OUTPUT_OPTION)
