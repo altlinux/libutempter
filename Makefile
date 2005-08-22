@@ -43,6 +43,7 @@ WARNINGS = -W -Wall -Waggregate-return -Wcast-align -Wconversion \
 	-Wwrite-strings
 CPPFLAGS = -std=gnu99 $(WARNINGS) -DLIBEXECDIR=\"$(libexecdir)\"
 CFLAGS = $(RPM_OPT_FLAGS)
+LDLIBS =
 
 all: $(TARGETS)
 
@@ -50,10 +51,11 @@ all: $(TARGETS)
 	$(COMPILE.c) -fPIC $< $(OUTPUT_OPTION)
 
 $(PROJECT): utempter.c
-	$(LINK.c) -Wl,-z,now,-stats $< $(OUTPUT_OPTION)
+	$(LINK.c) -Wl,-z,now,-stats $(LDLIBS) $< $(OUTPUT_OPTION)
 
 $(SHAREDLIB): iface.os $(MAP)
-	$(LINK.o) -shared -Wl,-soname,$(SONAME),--version-script=$(MAP),-stats -lc $< $(OUTPUT_OPTION)
+	$(LINK.o) -shared -Wl,-soname,$(SONAME),--version-script=$(MAP),-stats \
+		-lc $< $(OUTPUT_OPTION)
 
 $(STATICLIB): iface.o
 	$(AR) $(ARFLAGS) $@ $<
@@ -62,10 +64,12 @@ $(STATICLIB): iface.o
 iface.o: iface.c utempter.h
 
 install:
-	$(INSTALL) -pD -m2711 $(PROJECT) $(DESTDIR)$(libexecdir)/$(PROJECT)/$(PROJECT)
-	$(INSTALL) -pD -m644 $(PROJECT).h $(DESTDIR)$(includedir)/$(PROJECT).h
-	$(INSTALL) -pD -m755 $(SHAREDLIB) $(DESTDIR)$(libdir)/$(SHAREDLIB).$(VERSION)
-	$(INSTALL) -pD -m644 $(STATICLIB) $(DESTDIR)$(libdir)/$(STATICLIB)
+	mkdir -p $(DESTDIR)$(libexecdir)/$(PROJECT) $(DESTDIR)$(includedir) \
+		$(DESTDIR)$(libdir)
+	$(INSTALL) -p -m2711 $(PROJECT) $(DESTDIR)$(libexecdir)/$(PROJECT)/
+	$(INSTALL) -p -m644 $(PROJECT).h $(DESTDIR)$(includedir)/
+	$(INSTALL) -p -m755 $(SHAREDLIB) $(DESTDIR)$(libdir)/$(SHAREDLIB).$(VERSION)
+	$(INSTALL) -p -m644 $(STATICLIB) $(DESTDIR)$(libdir)/
 	ln -s $(SHAREDLIB).$(VERSION) $(DESTDIR)$(libdir)/$(SONAME)
 	ln -s $(SONAME) $(DESTDIR)$(libdir)/$(SHAREDLIB)
 
