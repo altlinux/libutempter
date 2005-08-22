@@ -75,10 +75,15 @@ make install DESTDIR="%buildroot" \
 
 %changelog
 * Fri Aug 19 2005 Dmitry V. Levin <ldv@altlinux.org> 1.1.4-alt1
+- Enabled almost all diagnostics supported by gcc and fixed all
+  issues found by compiler.
+- Added FreeBSD support, based on patches from Gentoo developers.
+- Makefile:
+  + Fixed few portability issues, thanks to Gentoo developers for report.
 - utempter:
   + Fixed struct utmp initialization on 64-bit architectures
     with 32-bit backwards compatibility enabled (like x86_64).
-  + Linked with -Wl,-z,now: i.e., marked it to tell the dynamic
+  + Linked with -Wl,-z,now, i.e., marked it to tell the dynamic
     linker to resolve all symbols when the program is started.
 
 * Thu Aug 18 2005 Dmitry V. Levin <ldv@altlinux.org> 1.1.3-alt1
