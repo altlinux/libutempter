@@ -2,7 +2,7 @@
 /*
   $Id$
 
-  Copyright (C) 2001,2002  Dmitry V. Levin <ldv@altlinux.org>
+  Copyright (C) 2001,2002,2005  Dmitry V. Levin <ldv@altlinux.org>
 
   A privileged helper for utmp/wtmp updates.
 
@@ -31,11 +31,18 @@
 #include <string.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include <pty.h>
 #include <pwd.h>
 #include <sys/ioctl.h>
 #include <sys/stat.h>
 #include <utmp.h>
+
+#ifdef __GLIBC__
+# include <pty.h>
+#elif defined(__FreeBSD__)
+# include <libutil.h>
+#else
+# error Unsupported platform
+#endif /* __GLIBC__ || __FreeBSD__ */
 
 #define	DEV_PREFIX	"/dev/"
 #define	DEV_PREFIX_LEN	(sizeof(DEV_PREFIX)-1)
@@ -101,25 +108,32 @@ validate_device(const char *device)
 
 static int
 write_uwtmp_record(const char *user, const char *term, const char *host,
-		   pid_t pid, int add)
+#ifdef __GLIBC__
+		   pid_t pid,
+#endif
+		   int add)
 {
 	struct utmp ut;
 	struct timeval tv;
-	int     offset = strlen(term) - sizeof(ut.ut_id);
+
+#ifdef __GLIBC__
+	int     offset;
+#endif
 
 	memset(&ut, 0, sizeof(ut));
 	memset(&tv, 0, sizeof(tv));
 
-	strncpy(ut.ut_user, user, sizeof(ut.ut_user));
-
+	strncpy(ut.ut_name, user, sizeof(ut.ut_name));
 	strncpy(ut.ut_line, term, sizeof(ut.ut_line));
+	if (host)
+		strncpy(ut.ut_host, host, sizeof(ut.ut_host));
 
+#ifdef __GLIBC__
+
+	offset = strlen(term) - sizeof(ut.ut_id);
 	if (offset < 0)
 		offset = 0;
 	strncpy(ut.ut_id, term + offset, sizeof(ut.ut_id));
-
-	if (host)
-		strncpy(ut.ut_host, host, sizeof(ut.ut_host));
 
 	if (add)
 		ut.ut_type = USER_PROCESS;
@@ -143,6 +157,27 @@ write_uwtmp_record(const char *user, const char *term, const char *host,
 	endutent();
 
 	(void) updwtmp(_PATH_WTMP, &ut);
+
+#elif defined(__FreeBSD__)
+
+	time(&ut.ut_time);
+
+	if (add)
+	{
+		login(&ut);
+	} else
+	{
+		if (logout(term) != 1)
+		{
+#ifdef	UTEMPTER_DEBUG
+			fprintf(stderr, "utempter: logout: %s\n",
+				strerror(errno));
+#endif
+			exit(EXIT_FAILURE);
+		}
+	}
+
+#endif /* __GLIBC__ || __FreeBSD__ */
 
 #ifdef	UTEMPTER_DEBUG
 	fprintf(stderr,
@@ -208,7 +243,12 @@ main(int argc, const char *argv[])
 		exit(EXIT_FAILURE);
 	}
 
+#ifdef __GLIBC__
 	device = ptsname(STDIN_FILENO);
+#elif defined(__FreeBSD__)
+	device = ttyname(STDIN_FILENO);
+#endif /* __GLIBC__ || __FreeBSD__ */
+
 	if (!device)
 	{
 #ifdef	UTEMPTER_DEBUG
@@ -221,5 +261,8 @@ main(int argc, const char *argv[])
 	validate_device(device);
 
 	return write_uwtmp_record(pw->pw_name, device + DEV_PREFIX_LEN, host,
-				  pid, add);
+#ifdef __GLIBC__
+				  pid,
+#endif
+				  add);
 }
