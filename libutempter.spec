@@ -85,6 +85,7 @@ make install DESTDIR="%buildroot" \
     with 32-bit backwards compatibility enabled (like x86_64).
   + Linked with -Wl,-z,now, i.e., marked it to tell the dynamic
     linker to resolve all symbols when the program is started.
+    Thanks to Gentoo developers for suggestion.
 
 * Thu Aug 18 2005 Dmitry V. Levin <ldv@altlinux.org> 1.1.3-alt1
 - Restricted list of global symbols exported by the library.
