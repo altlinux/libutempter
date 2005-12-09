@@ -54,7 +54,7 @@ $(PROJECT): utempter.c
 	$(LINK.c) -Wl,-z,now,-stats $(LDLIBS) $< $(OUTPUT_OPTION)
 
 $(SHAREDLIB): iface.os $(MAP)
-	$(LINK.o) -shared -Wl,-soname,$(SONAME),--version-script=$(MAP),-stats \
+	$(LINK.o) -shared -Wl,-soname,$(SONAME),--version-script=$(MAP),-z,defs,-stats \
 		-lc $< $(OUTPUT_OPTION)
 
 $(STATICLIB): iface.o
