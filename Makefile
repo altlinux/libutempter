@@ -38,9 +38,9 @@ DESTDIR =
 
 WARNINGS = -W -Wall -Waggregate-return -Wcast-align -Wconversion \
 	-Wdisabled-optimization -Wmissing-declarations \
-	-Wmissing-format-attribute -Wmissing-noreturn -Wmissing-prototypes \
-	-Wpointer-arith -Wredundant-decls -Wshadow -Wstrict-prototypes \
-	-Wwrite-strings
+	-Wmissing-format-attribute -Wmissing-noreturn \
+	-Wmissing-prototypes -Wpointer-arith -Wredundant-decls \
+	-Wshadow -Wstrict-prototypes -Wwrite-strings
 CPPFLAGS = -std=gnu99 $(WARNINGS) -DLIBEXECDIR=\"$(libexecdir)\"
 CFLAGS = $(RPM_OPT_FLAGS)
 LDLIBS =
@@ -54,7 +54,8 @@ $(PROJECT): utempter.c
 	$(LINK.c) -Wl,-z,now,-stats $(LDLIBS) $< $(OUTPUT_OPTION)
 
 $(SHAREDLIB): iface.os $(MAP)
-	$(LINK.o) -shared -Wl,-soname,$(SONAME),--version-script=$(MAP),-z,defs,-stats \
+	$(LINK.o) -shared \
+		-Wl,-soname,$(SONAME),--version-script=$(MAP),-z,defs,-stats \
 		-lc $< $(OUTPUT_OPTION)
 
 $(STATICLIB): iface.o
