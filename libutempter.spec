@@ -76,7 +76,7 @@ make install DESTDIR="%buildroot" \
 %changelog
 * Fri Aug 19 2005 Dmitry V. Levin <ldv@altlinux.org> 1.1.4-alt1
 - Enabled almost all diagnostics supported by gcc and fixed all
-  issues found by compiler.
+  issues found by gcc-3.4.4-alt3.
 - Added FreeBSD support, based on patches from Gentoo/FreeBSD.
 - Makefile:
   + Fixed few portability issues reported by Gentoo developers.
