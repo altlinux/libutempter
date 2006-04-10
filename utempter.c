@@ -1,7 +1,5 @@
 
 /*
-  $Id$
-
   Copyright (C) 2001,2002,2005  Dmitry V. Levin <ldv@altlinux.org>
 
   A privileged helper for utmp/wtmp updates.

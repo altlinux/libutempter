@@ -1,5 +1,3 @@
-# $Id$
-
 Name: libutempter
 Version: 1.1.4
 Release: alt1

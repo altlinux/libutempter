@@ -1,7 +1,5 @@
 
 /*
-  $Id$
-
   Copyright (C) 2001-2005  Dmitry V. Levin <ldv@altlinux.org>
 
   Utempter library interface.
