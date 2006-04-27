@@ -1,1 +1,2 @@
-tar: .
+spec: libutempter/libutempter.spec
+tar: libutempter

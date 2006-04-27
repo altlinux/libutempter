@@ -6,7 +6,7 @@ Summary: A privileged helper for utmp/wtmp updates
 License: LGPL
 Group: System/Libraries
 
-Source: %name-%version.tar.bz2
+Source: %name-%version.tar
 
 PreReq: shadow-utils
 Provides: utempter = 0.5.2
