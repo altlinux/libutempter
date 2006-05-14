@@ -5,6 +5,7 @@ Release: alt1
 Summary: A privileged helper for utmp/wtmp updates
 License: LGPL
 Group: System/Libraries
+Packager: Dmitry V. Levin <ldv@altlinux.org>
 
 Source: %name-%version.tar
 
