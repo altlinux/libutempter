@@ -163,7 +163,7 @@ make install DESTDIR="%buildroot" \
 - strip utempter.
 - defattr to root.
 
-* Thu Jun 10 1999 Bernhard Rosenkränzer <bero@mandrakesoft.com>
+* Thu Jun 10 1999 Bernhard Rosenkraenzer <bero@mandrakesoft.com>
 - Mandrake adaptions
 
 * Fri Jun  4 1999 Jeff Johnson <jbj@redhat.com>
