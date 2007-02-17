@@ -1,5 +1,5 @@
 Name: libutempter
-Version: 1.1.4
+Version: 1.1.5
 Release: alt1
 
 Summary: A privileged helper for utmp/wtmp updates
@@ -73,6 +73,13 @@ make install DESTDIR="%buildroot" \
 %_libdir/*.a
 
 %changelog
+* Sun Feb 18 2007 Dmitry V. Levin <ldv@altlinux.org> 1.1.5-alt1
+- Removed cvsid tags.
+- README: Described differences between provided libutempter interfaces.
+- Fixed FreeBSD support:
+  + utempter.c (main): Be consistent and use ptsname(3) on non-glibc systems too.
+  + utempter.c (write_uwtmp_record) [__FreeBSD__]: Fix ut.ut_time initialization.
+
 * Fri Dec 09 2005 Dmitry V. Levin <ldv@altlinux.org> 1.1.4-alt1
 - Enabled almost all diagnostics supported by gcc and fixed all
   issues found by gcc-3.4.4-alt3.
