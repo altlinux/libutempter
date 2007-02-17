@@ -241,11 +241,7 @@ main(int argc, const char *argv[])
 		exit(EXIT_FAILURE);
 	}
 
-#ifdef __GLIBC__
 	device = ptsname(STDIN_FILENO);
-#elif defined(__FreeBSD__)
-	device = ttyname(STDIN_FILENO);
-#endif /* __GLIBC__ || __FreeBSD__ */
 
 	if (!device)
 	{
