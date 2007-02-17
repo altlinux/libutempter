@@ -158,7 +158,8 @@ write_uwtmp_record(const char *user, const char *term, const char *host,
 
 #elif defined(__FreeBSD__)
 
-	time(&ut.ut_time);
+	(void) gettimeofday(&tv, 0);
+	ut.ut_time = tv.tv_sec;
 
 	if (add)
 	{
