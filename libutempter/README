@@ -8,5 +8,8 @@ This implementation is based on ideas of RedHat's utempter by Erik Troan
 (version 0.5.2 at the moment of writing).
 
 There are two interfaces supported: old and new.
-New API is recommended for new applications, old - for compatibility with
-old software.
+Old API is provided for backwards compatibility with old RedHat's utempter.
+New API is recommended for new applications because it is more clean
+than old one.
+There are no plans to drop or make incompatible changes to these interfaces.
+
