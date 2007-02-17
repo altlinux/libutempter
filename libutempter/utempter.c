@@ -119,7 +119,9 @@ write_uwtmp_record(const char *user, const char *term, const char *host,
 #endif
 
 	memset(&ut, 0, sizeof(ut));
+
 	memset(&tv, 0, sizeof(tv));
+	(void) gettimeofday(&tv, 0);
 
 	strncpy(ut.ut_name, user, sizeof(ut.ut_name));
 	strncpy(ut.ut_line, term, sizeof(ut.ut_line));
@@ -140,7 +142,6 @@ write_uwtmp_record(const char *user, const char *term, const char *host,
 
 	ut.ut_pid = pid;
 
-	(void) gettimeofday(&tv, 0);
 	ut.ut_tv.tv_sec = tv.tv_sec;
 	ut.ut_tv.tv_usec = tv.tv_usec;
 
@@ -158,7 +159,6 @@ write_uwtmp_record(const char *user, const char *term, const char *host,
 
 #elif defined(__FreeBSD__)
 
-	(void) gettimeofday(&tv, 0);
 	ut.ut_time = tv.tv_sec;
 
 	if (add)
