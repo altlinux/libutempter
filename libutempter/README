@@ -10,6 +10,6 @@ This implementation is based on ideas of RedHat's utempter by Erik Troan
 There are two interfaces supported: old and new.
 Old API is provided for backwards compatibility with old RedHat's utempter.
 New API is recommended for new applications because it is more clean
-than old one.
+than the old one.
 There are no plans to drop or make incompatible changes to these interfaces.
 
