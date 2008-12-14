@@ -1,9 +1,9 @@
 Name: libutempter
 Version: 1.1.5
-Release: alt1
+Release: alt2
 
 Summary: A privileged helper for utmp/wtmp updates
-License: LGPL
+License: LGPLv2+
 Group: System/Libraries
 Packager: Dmitry V. Levin <ldv@altlinux.org>
 
@@ -69,6 +69,10 @@ make install DESTDIR="%buildroot" \
 %_libdir/*.a
 
 %changelog
+* Sun Dec 14 2008 Dmitry V. Levin <ldv@altlinux.org> 1.1.5-alt2
+- Removed obsolete %%post_ldconfig/%%postun_ldconfig calls.
+- Removed redundant dependencies.
+
 * Sun Feb 18 2007 Dmitry V. Levin <ldv@altlinux.org> 1.1.5-alt1
 - Removed cvsid tags.
 - README: Described differences between provided libutempter interfaces.
