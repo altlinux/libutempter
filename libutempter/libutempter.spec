@@ -9,7 +9,6 @@ Packager: Dmitry V. Levin <ldv@altlinux.org>
 
 Source: %name-%version.tar
 
-PreReq: shadow-utils
 Provides: utempter = 0.5.2
 Obsoletes: utempter
 
