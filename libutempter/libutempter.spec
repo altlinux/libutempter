@@ -41,14 +41,14 @@ This package contains static library required to build
 statically linked utempter-based software.
 
 %prep
-%setup -q
+%setup
 
 %build
 %make_build CFLAGS="%optflags" \
 	libdir="%_libdir" libexecdir="%_libexecdir"
 
 %install
-make install DESTDIR="%buildroot" \
+%makeinstall_std \
 	libdir="%_libdir" libexecdir="%_libexecdir"
 
 %pre
