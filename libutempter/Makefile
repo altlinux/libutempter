@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2001-2005  Dmitry V. Levin <ldv@altlinux.org>
+# Copyright (C) 2001-2005,2010  Dmitry V. Levin <ldv@altlinux.org>
 #
 # Makefile for the libutempter project.
 #
@@ -33,6 +33,8 @@ INSTALL = install
 libdir = /usr/lib
 libexecdir = /usr/lib
 includedir = /usr/include
+mandir = /usr/share/man
+man3dir = $(mandir)/man3
 DESTDIR =
 
 WARNINGS = -W -Wall -Waggregate-return -Wcast-align -Wconversion \
@@ -64,14 +66,19 @@ $(STATICLIB): iface.o
 iface.o: iface.c utempter.h
 
 install:
-	mkdir -p $(DESTDIR)$(libexecdir)/$(PROJECT) $(DESTDIR)$(includedir) \
-		$(DESTDIR)$(libdir)
+	mkdir -p $(DESTDIR)$(libdir) $(DESTDIR)$(libexecdir)/$(PROJECT) \
+		$(DESTDIR)$(includedir) $(DESTDIR)$(man3dir)
 	$(INSTALL) -p -m2711 $(PROJECT) $(DESTDIR)$(libexecdir)/$(PROJECT)/
 	$(INSTALL) -p -m644 $(PROJECT).h $(DESTDIR)$(includedir)/
 	$(INSTALL) -p -m755 $(SHAREDLIB) $(DESTDIR)$(libdir)/$(SHAREDLIB).$(VERSION)
 	$(INSTALL) -p -m644 $(STATICLIB) $(DESTDIR)$(libdir)/
 	ln -s $(SHAREDLIB).$(VERSION) $(DESTDIR)$(libdir)/$(SONAME)
 	ln -s $(SONAME) $(DESTDIR)$(libdir)/$(SHAREDLIB)
+	$(INSTALL) -p -m644 $(PROJECT).3 $(DESTDIR)$(man3dir)/
+	for n in lib$(PROJECT) utempter_add_record utempter_remove_record \
+	    utempter_remove_added_record utempter_set_helper; do \
+		ln -s $(PROJECT).3 $(DESTDIR)$(man3dir)/$$n.3; \
+	done
 
 clean:
 	$(RM) $(TARGETS) iface.o iface.os core *~

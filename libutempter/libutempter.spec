@@ -64,6 +64,7 @@ make install DESTDIR="%buildroot" \
 %files devel
 %_libdir/*.so
 %_includedir/*
+%_man3dir/*
 
 %files devel-static
 %_libdir/*.a
