@@ -1,6 +1,6 @@
 
 /*
-  Copyright (C) 2001,2002,2005  Dmitry V. Levin <ldv@altlinux.org>
+  Copyright (C) 2001,2002,2005,2010  Dmitry V. Levin <ldv@altlinux.org>
 
   A privileged helper for utmp/wtmp updates.
 
@@ -115,7 +115,7 @@ write_uwtmp_record(const char *user, const char *term, const char *host,
 	struct timeval tv;
 
 #ifdef __GLIBC__
-	int     offset;
+	size_t offset;
 #endif
 
 	memset(&ut, 0, sizeof(ut));
@@ -130,9 +130,8 @@ write_uwtmp_record(const char *user, const char *term, const char *host,
 
 #ifdef __GLIBC__
 
-	offset = strlen(term) - sizeof(ut.ut_id);
-	if (offset < 0)
-		offset = 0;
+	offset = (strlen(term) <= sizeof(ut.ut_id)) ? 0 :
+			strlen(term) - sizeof(ut.ut_id);
 	strncpy(ut.ut_id, term + offset, sizeof(ut.ut_id));
 
 	if (add)
