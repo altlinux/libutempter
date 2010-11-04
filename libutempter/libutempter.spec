@@ -1,6 +1,6 @@
 Name: libutempter
-Version: 1.1.5
-Release: alt2
+Version: 1.1.6
+Release: alt1
 
 Summary: A privileged helper for utmp/wtmp updates
 License: LGPLv2+
@@ -70,6 +70,10 @@ statically linked utempter-based software.
 %_libdir/*.a
 
 %changelog
+* Thu Nov 04 2010 Dmitry V. Levin <ldv@altlinux.org> 1.1.6-alt1
+- Added manpages documenting the utempter interface, based on
+  documentation from FreeBSD libulog.
+
 * Sun Dec 14 2008 Dmitry V. Levin <ldv@altlinux.org> 1.1.5-alt2
 - Removed obsolete %%post_ldconfig/%%postun_ldconfig calls.
 - Removed redundant dependencies.
