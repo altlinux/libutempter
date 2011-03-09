@@ -1,11 +1,10 @@
 Name: libutempter
 Version: 1.1.6
-Release: alt1
+Release: alt2
 
 Summary: A privileged helper for utmp/wtmp updates
 License: LGPLv2+
 Group: System/Libraries
-Packager: Dmitry V. Levin <ldv@altlinux.org>
 
 Source: %name-%version.tar
 
@@ -70,6 +69,9 @@ statically linked utempter-based software.
 %_libdir/*.a
 
 %changelog
+* Wed Mar 09 2011 Dmitry V. Levin <ldv@altlinux.org> 1.1.6-alt2
+- Rebuilt for debuginfo.
+
 * Thu Nov 04 2010 Dmitry V. Levin <ldv@altlinux.org> 1.1.6-alt1
 - Added manpages documenting the utempter interface, based on
   documentation from FreeBSD libulog.
