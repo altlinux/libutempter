@@ -45,8 +45,9 @@ WARNINGS = -W -Wall -Waggregate-return -Wcast-align -Wconversion \
 CPPFLAGS = -std=gnu99 $(WARNINGS) -DLIBEXECDIR=\"$(libexecdir)\"
 CFLAGS = $(RPM_OPT_FLAGS)
 LINK_NOW = -Wl,-z,now
+LINK_RELRO = -Wl,-z,relro
 LINK_STATS = -Wl,-stats
-override LDFLAGS := $(LINK_STATS) $(LDFLAGS)
+override LDFLAGS := $(LINK_RELRO) $(LINK_STATS) $(LDFLAGS)
 LDLIBS =
 
 all: $(TARGETS)
