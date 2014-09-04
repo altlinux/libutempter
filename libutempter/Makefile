@@ -42,6 +42,9 @@ WARNINGS = -W -Wall -Waggregate-return -Wcast-align -Wconversion \
 	-Wmissing-format-attribute -Wmissing-noreturn \
 	-Wmissing-prototypes -Wpointer-arith -Wredundant-decls \
 	-Wshadow -Wstrict-prototypes -Wwrite-strings
+COMPILE_PIC = -fPIC
+COMPILE_PIE = -fPIE
+LINK_PIE = -pie
 CPPFLAGS = -std=gnu99 $(WARNINGS) -DLIBEXECDIR=\"$(libexecdir)\"
 CFLAGS = $(RPM_OPT_FLAGS)
 LINK_NOW = -Wl,-z,now
@@ -53,10 +56,10 @@ LDLIBS =
 all: $(TARGETS)
 
 %.os: %.c
-	$(COMPILE.c) -fPIC $< $(OUTPUT_OPTION)
+	$(COMPILE.c) $(COMPILE_PIC) $< $(OUTPUT_OPTION)
 
 $(PROJECT): utempter.c
-	$(LINK.c) $(LINK_NOW) $(LDLIBS) $< $(OUTPUT_OPTION)
+	$(LINK.c) $(COMPILE_PIE) $(LINK_PIE) $(LINK_NOW) $(LDLIBS) $< $(OUTPUT_OPTION)
 
 $(SHAREDLIB): iface.os $(MAP)
 	$(LINK.o) -shared \
