@@ -44,6 +44,9 @@ WARNINGS = -W -Wall -Waggregate-return -Wcast-align -Wconversion \
 	-Wshadow -Wstrict-prototypes -Wwrite-strings
 CPPFLAGS = -std=gnu99 $(WARNINGS) -DLIBEXECDIR=\"$(libexecdir)\"
 CFLAGS = $(RPM_OPT_FLAGS)
+LINK_NOW = -Wl,-z,now
+LINK_STATS = -Wl,-stats
+override LDFLAGS := $(LINK_STATS) $(LDFLAGS)
 LDLIBS =
 
 all: $(TARGETS)
@@ -52,11 +55,11 @@ all: $(TARGETS)
 	$(COMPILE.c) -fPIC $< $(OUTPUT_OPTION)
 
 $(PROJECT): utempter.c
-	$(LINK.c) -Wl,-z,now,-stats $(LDLIBS) $< $(OUTPUT_OPTION)
+	$(LINK.c) $(LINK_NOW) $(LDLIBS) $< $(OUTPUT_OPTION)
 
 $(SHAREDLIB): iface.os $(MAP)
 	$(LINK.o) -shared \
-		-Wl,-soname,$(SONAME),--version-script=$(MAP),-z,defs,-stats \
+		-Wl,-soname,$(SONAME),--version-script=$(MAP),-z,defs \
 		-lc $< $(OUTPUT_OPTION)
 
 $(STATICLIB): iface.o
