@@ -43,8 +43,7 @@ statically linked utempter-based software.
 %setup
 
 %build
-%make_build CFLAGS="%optflags" \
-	libdir="%_libdir" libexecdir="%_libexecdir"
+%make_build libdir="%_libdir" libexecdir="%_libexecdir"
 
 %install
 %makeinstall_std \

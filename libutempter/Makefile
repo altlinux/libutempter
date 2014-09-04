@@ -42,14 +42,15 @@ WARNINGS = -W -Wall -Waggregate-return -Wcast-align -Wconversion \
 	-Wmissing-format-attribute -Wmissing-noreturn \
 	-Wmissing-prototypes -Wpointer-arith -Wredundant-decls \
 	-Wshadow -Wstrict-prototypes -Wwrite-strings
+COMPILE_DIALECT = -std=gnu99
 COMPILE_PIC = -fPIC
 COMPILE_PIE = -fPIE
 LINK_PIE = -pie
-CPPFLAGS = -std=gnu99 $(WARNINGS) -DLIBEXECDIR=\"$(libexecdir)\"
-CFLAGS = $(RPM_OPT_FLAGS)
 LINK_NOW = -Wl,-z,now
 LINK_RELRO = -Wl,-z,relro
 LINK_STATS = -Wl,-stats
+override CPPFLAGS := $(COMPILE_DIALECT) -DLIBEXECDIR=\"$(libexecdir)\" $(CPPFLAGS)
+override CFLAGS := $(WARNINGS) $(CFLAGS) $(RPM_OPT_FLAGS)
 override LDFLAGS := $(LINK_RELRO) $(LINK_STATS) $(LDFLAGS)
 LDLIBS =
 
