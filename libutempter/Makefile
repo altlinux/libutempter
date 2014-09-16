@@ -43,13 +43,14 @@ WARNINGS = -W -Wall -Waggregate-return -Wcast-align -Wconversion \
 	-Wmissing-prototypes -Wpointer-arith -Wredundant-decls \
 	-Wshadow -Wstrict-prototypes -Wwrite-strings
 COMPILE_DIALECT = -std=gnu99
+COMPILE_LFS =
 COMPILE_PIC = -fPIC
 COMPILE_PIE = -fPIE
 LINK_PIE = -pie
 LINK_NOW = -Wl,-z,now
 LINK_RELRO = -Wl,-z,relro
 LINK_STATS = -Wl,-stats
-override CPPFLAGS := $(COMPILE_DIALECT) -DLIBEXECDIR=\"$(libexecdir)\" $(CPPFLAGS)
+override CPPFLAGS := $(COMPILE_DIALECT) $(COMPILE_LFS) -DLIBEXECDIR=\"$(libexecdir)\" $(CPPFLAGS)
 override CFLAGS := $(WARNINGS) $(CFLAGS) $(RPM_OPT_FLAGS)
 override LDFLAGS := $(LINK_RELRO) $(LINK_STATS) $(LDFLAGS)
 LDLIBS =

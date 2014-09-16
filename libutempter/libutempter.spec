@@ -43,7 +43,7 @@ statically linked utempter-based software.
 %setup
 
 %build
-%make_build libdir="%_libdir" libexecdir="%_libexecdir"
+%make_build libdir="%_libdir" libexecdir="%_libexecdir" "COMPILE_LFS=$(getconf LFS_CFLAGS)"
 
 %install
 %makeinstall_std \
