@@ -1,6 +1,6 @@
 Name: libutempter
-Version: 1.1.6
-Release: alt2
+Version: 1.1.7
+Release: alt1
 
 Summary: A privileged helper for utmp/wtmp updates
 License: LGPLv2+
@@ -68,6 +68,9 @@ statically linked utempter-based software.
 %_libdir/*.a
 
 %changelog
+* Tue Sep 16 2014 Dmitry V. Levin <ldv@altlinux.org> 1.1.7-alt1
+- Build utempter as a PIE.
+
 * Wed Mar 09 2011 Dmitry V. Levin <ldv@altlinux.org> 1.1.6-alt2
 - Rebuilt for debuginfo.
 
