@@ -27,6 +27,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <ctype.h>
 #include <fcntl.h>
 #include <pwd.h>
 #include <sys/ioctl.h>
@@ -93,6 +94,19 @@ validate_device(const char *device)
 			device);
 #endif
 		exit(EXIT_FAILURE);
+	}
+}
+
+static void
+validate_hostname(const char *host)
+{
+	for (; host[0]; ++host) {
+		if (!isgraph((unsigned char) host[0])) {
+#ifdef UTEMPTER_DEBUG
+			fprintf(stderr, "utempter: invalid host name\n");
+#endif
+			exit(EXIT_FAILURE);
+		}
 	}
 }
 
@@ -237,6 +251,8 @@ main(int argc, const char *argv[])
 	}
 
 	validate_device(device);
+	if (host)
+		validate_hostname(host);
 
 	return write_uwtmp_record(pw->pw_name, device + DEV_PREFIX_LEN, host,
 				  pid, add);
