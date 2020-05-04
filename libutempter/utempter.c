@@ -31,6 +31,7 @@
 #include <pwd.h>
 #include <sys/ioctl.h>
 #include <sys/stat.h>
+#include <sys/time.h>
 #include <utmp.h>
 
 #ifdef __GLIBC__
