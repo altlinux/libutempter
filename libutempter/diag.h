@@ -21,6 +21,16 @@
 #ifndef UTEMPTER_DIAG_H
 # define UTEMPTER_DIAG_H
 
+# include <syslog.h>
+
+# ifdef UTEMPTER_LOG
+#  define log_debug(fmt_, ...) syslog(LOG_DEBUG, fmt_, ##__VA_ARGS__)
+#  define log_error(fmt_, ...) syslog(LOG_ERR, fmt_, ##__VA_ARGS__)
+# else
+#  define log_debug(fmt_, ...) do { ; /* no log_debug */ } while (0)
+#  define log_error(fmt_, ...) do { ; /* no log_error */ } while (0)
+# endif
+
 # ifdef UTEMPTER_DEBUG
 #  define print_dbg(fmt_, ...)				\
 	fprintf(stderr, "%s:%d: " fmt_ "\n", __FILE__, __LINE__, ##__VA_ARGS__)
@@ -30,12 +40,14 @@
 
 # define debug_msg(fmt_, ...)				\
 	do {						\
+		log_debug(fmt_, ##__VA_ARGS__);		\
 		print_dbg(fmt_, ##__VA_ARGS__);		\
 	} while (0)					\
 /* End of debug_msg definition.  */
 
 # define fatal_error(fmt_, ...)				\
 	do {						\
+		log_error(fmt_, ##__VA_ARGS__);		\
 		print_dbg(fmt_, ##__VA_ARGS__);		\
 		exit(EXIT_FAILURE);			\
 	} while (0)					\
