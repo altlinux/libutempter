@@ -1,4 +1,3 @@
-
 /*
   Copyright (C) 2001-2005  Dmitry V. Levin <ldv@altlinux.org>
 
@@ -43,32 +42,30 @@
        __result; }))
 #endif
 
-#define	UTEMPTER_DEFAULT_PATHNAME	LIBEXECDIR "/utempter/utempter"
+#define UTEMPTER_DEFAULT_PATHNAME	LIBEXECDIR "/utempter/utempter"
 
 static const char *utempter_pathname;
 static int saved_fd = -1;
 
-static void __attribute__ ((__noreturn__))
+static void __attribute__((__noreturn__))
 do_child(int master_fd, const char *path, char *const *argv)
 {
 	if ((dup2(master_fd, STDIN_FILENO) != STDIN_FILENO)
-	    || (dup2(master_fd, STDOUT_FILENO) != STDOUT_FILENO))
-	{
-#ifdef	UTEMPTER_DEBUG
+	    || (dup2(master_fd, STDOUT_FILENO) != STDOUT_FILENO)) {
+#ifdef UTEMPTER_DEBUG
 		fprintf(stderr, "libutempter: dup2: %s\n", strerror(errno));
 #endif
 		_exit(EXIT_FAILURE);
 	}
 
 	execv(path, argv);
-#ifdef	UTEMPTER_DEBUG
+#ifdef UTEMPTER_DEBUG
 	fprintf(stderr, "libutempter: execv: %s\n", strerror(errno));
 #endif
 
-	while (EACCES == errno)
-	{
+	while (EACCES == errno) {
 		/* try saved group ID */
-		gid_t   rgid, egid, sgid;
+		gid_t rgid, egid, sgid;
 
 		if (getresgid(&rgid, &egid, &sgid))
 			break;
@@ -95,34 +92,29 @@ execute_helper(int master_fd, const char *const argv[])
 	action.sa_flags = SA_RESTART;
 	sigemptyset(&action.sa_mask);
 
-	if (sigaction(SIGCHLD, &action, &saved_action) < 0)
-	{
-#ifdef	UTEMPTER_DEBUG
+	if (sigaction(SIGCHLD, &action, &saved_action) < 0) {
+#ifdef UTEMPTER_DEBUG
 		fprintf(stderr, "libutempter: sigaction: %s\n",
 			strerror(errno));
 #endif
 		return 0;
-	} else
-	{
-		pid_t   child;
-		int     status = 1;
+	} else {
+		pid_t child;
+		int status = 1;
 
 		child = fork();
-		if (!child)
-		{
+		if (!child) {
 			do_child(master_fd, argv[0], (char *const *) argv);
-		} else if (child < 0)
-		{
-#ifdef	UTEMPTER_DEBUG
+		} else if (child < 0) {
+#ifdef UTEMPTER_DEBUG
 			fprintf(stderr, "libutempter: fork: %s\n",
 				strerror(errno));
 #endif
 			goto ret;
 		}
 
-		if (TEMP_FAILURE_RETRY(waitpid(child, &status, 0)) < 0)
-		{
-#ifdef	UTEMPTER_DEBUG
+		if (TEMP_FAILURE_RETRY(waitpid(child, &status, 0)) < 0) {
+#ifdef UTEMPTER_DEBUG
 			fprintf(stderr, "libutempter: waitpid: %s\n",
 				strerror(errno));
 #endif
@@ -140,10 +132,13 @@ execute_helper(int master_fd, const char *const argv[])
 int
 utempter_add_record(int master_fd, const char *hostname)
 {
-	const char *const args[] =
-		{ utempter_pathname ? : UTEMPTER_DEFAULT_PATHNAME, "add",
-		  hostname, 0 };
-	int     status = execute_helper(master_fd, args);
+	const char *const args[] = {
+		utempter_pathname ? : UTEMPTER_DEFAULT_PATHNAME,
+		"add",
+		hostname,
+		0
+	};
+	int status = execute_helper(master_fd, args);
 
 	if (status)
 		saved_fd = master_fd;
@@ -154,9 +149,12 @@ utempter_add_record(int master_fd, const char *hostname)
 int
 utempter_remove_record(int master_fd)
 {
-	const char *const args[] =
-		{ utempter_pathname ? : UTEMPTER_DEFAULT_PATHNAME, "del", 0 };
-	int     status = execute_helper(master_fd, args);
+	const char *const args[] = {
+		utempter_pathname ? : UTEMPTER_DEFAULT_PATHNAME,
+		"del",
+		0
+	};
+	int status = execute_helper(master_fd, args);
 
 	if (master_fd == saved_fd)
 		saved_fd = -1;
@@ -182,8 +180,8 @@ utempter_set_helper(const char *pathname)
 /* Old interface. */
 
 void
-addToUtmp(__attribute__ ((unused)) const char *pty, const char *hostname,
-	  int master_fd)
+addToUtmp(const char *pty __attribute__((unused)),
+	  const char *hostname, int master_fd)
 {
 	(void) utempter_add_record(master_fd, hostname);
 }
@@ -195,7 +193,7 @@ removeFromUtmp(void)
 }
 
 void
-removeLineFromUtmp(__attribute__ ((unused)) const char *pty, int master_fd)
+removeLineFromUtmp(const char *pty __attribute__((unused)), int master_fd)
 {
 	(void) utempter_remove_record(master_fd);
 }

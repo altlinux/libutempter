@@ -1,4 +1,3 @@
-
 /*
   Copyright (C) 2001,2002,2005,2010  Dmitry V. Levin <ldv@altlinux.org>
 
@@ -42,15 +41,15 @@
 # error Unsupported platform
 #endif /* __GLIBC__ || __FreeBSD__ */
 
-#define	DEV_PREFIX	"/dev/"
-#define	DEV_PREFIX_LEN	(sizeof(DEV_PREFIX)-1)
+#define DEV_PREFIX	"/dev/"
+#define DEV_PREFIX_LEN	(sizeof(DEV_PREFIX) - 1)
 
-static void __attribute__ ((__noreturn__))
+static void __attribute__((__noreturn__))
 usage(void)
 {
-#ifdef	UTEMPTER_DEBUG
+#ifdef UTEMPTER_DEBUG
 	fprintf(stderr, "Usage: utempter add [<host>]\n"
-		"       utempter del\n");
+			"       utempter del\n");
 #endif
 	exit(EXIT_FAILURE);
 }
@@ -58,45 +57,39 @@ usage(void)
 static void
 validate_device(const char *device)
 {
-	int     flags;
+	int flags;
 	struct stat stb;
 
-	if (strncmp(device, DEV_PREFIX, DEV_PREFIX_LEN))
-	{
-#ifdef	UTEMPTER_DEBUG
+	if (strncmp(device, DEV_PREFIX, DEV_PREFIX_LEN)) {
+#ifdef UTEMPTER_DEBUG
 		fprintf(stderr, "utempter: invalid device name\n");
 #endif
 		exit(EXIT_FAILURE);
 	}
 
-	if ((flags = fcntl(STDIN_FILENO, F_GETFL, 0)) < 0)
-	{
-#ifdef	UTEMPTER_DEBUG
+	if ((flags = fcntl(STDIN_FILENO, F_GETFL, 0)) < 0) {
+#ifdef UTEMPTER_DEBUG
 		fprintf(stderr, "utempter: fcntl: %s\n", strerror(errno));
 #endif
 		exit(EXIT_FAILURE);
 	}
 
-	if ((flags & O_RDWR) != O_RDWR)
-	{
-#ifdef	UTEMPTER_DEBUG
+	if ((flags & O_RDWR) != O_RDWR) {
+#ifdef UTEMPTER_DEBUG
 		fprintf(stderr, "utempter: invalid descriptor mode\n");
 #endif
 		exit(EXIT_FAILURE);
 	}
 
-	if (stat(device, &stb) < 0)
-	{
-#ifdef	UTEMPTER_DEBUG
-		fprintf(stderr, "utempter: %s: %s\n", device,
-			strerror(errno));
+	if (stat(device, &stb) < 0) {
+#ifdef UTEMPTER_DEBUG
+		fprintf(stderr, "utempter: %s: %s\n", device, strerror(errno));
 #endif
 		exit(EXIT_FAILURE);
 	}
 
-	if (getuid() != stb.st_uid)
-	{
-#ifdef	UTEMPTER_DEBUG
+	if (getuid() != stb.st_uid) {
+#ifdef UTEMPTER_DEBUG
 		fprintf(stderr, "utempter: %s belongs to another user\n",
 			device);
 #endif
@@ -131,7 +124,7 @@ write_uwtmp_record(const char *user, const char *term, const char *host,
 #ifdef __GLIBC__
 
 	offset = (strlen(term) <= sizeof(ut.ut_id)) ? 0 :
-			strlen(term) - sizeof(ut.ut_id);
+		strlen(term) - sizeof(ut.ut_id);
 	strncpy(ut.ut_id, term + offset, sizeof(ut.ut_id));
 
 	if (add)
@@ -145,11 +138,10 @@ write_uwtmp_record(const char *user, const char *term, const char *host,
 	ut.ut_tv.tv_usec = tv.tv_usec;
 
 	setutent();
-	if (!pututline(&ut))
-	{
-#ifdef	UTEMPTER_DEBUG
+	if (!pututline(&ut)) {
+# ifdef UTEMPTER_DEBUG
 		fprintf(stderr, "utempter: pututline: %s\n", strerror(errno));
-#endif
+# endif
 		exit(EXIT_FAILURE);
 	}
 	endutent();
@@ -160,24 +152,21 @@ write_uwtmp_record(const char *user, const char *term, const char *host,
 
 	ut.ut_time = tv.tv_sec;
 
-	if (add)
-	{
+	if (add) {
 		login(&ut);
-	} else
-	{
-		if (logout(term) != 1)
-		{
-#ifdef	UTEMPTER_DEBUG
+	} else {
+		if (logout(term) != 1) {
+# ifdef UTEMPTER_DEBUG
 			fprintf(stderr, "utempter: logout: %s\n",
 				strerror(errno));
-#endif
+# endif
 			exit(EXIT_FAILURE);
 		}
 	}
 
 #endif /* __GLIBC__ || __FreeBSD__ */
 
-#ifdef	UTEMPTER_DEBUG
+#ifdef UTEMPTER_DEBUG
 	fprintf(stderr,
 		"utempter: DEBUG: utmp/wtmp record %s for terminal '%s'\n",
 		add ? "added" : "removed", term);
@@ -190,11 +179,10 @@ main(int argc, const char *argv[])
 {
 	const char *device, *host;
 	struct passwd *pw;
-	pid_t   pid;
-	int     add = 0, i;
+	pid_t pid;
+	int add = 0, i;
 
-	for (i = 0; i <= 2; ++i)
-	{
+	for (i = 0; i <= 2; ++i) {
 		struct stat sb;
 
 		if (fstat(i, &sb) < 0)
@@ -205,13 +193,11 @@ main(int argc, const char *argv[])
 	if (argc < 2)
 		usage();
 
-	if (!strcmp(argv[1], "add"))
-	{
+	if (!strcmp(argv[1], "add")) {
 		if (argc > 3)
 			usage();
 		add = 1;
-	} else if (!strcmp(argv[1], "del"))
-	{
+	} else if (!strcmp(argv[1], "del")) {
 		if (argc != 2)
 			usage();
 		add = 0;
@@ -221,9 +207,8 @@ main(int argc, const char *argv[])
 	host = argv[2];
 
 	pid = getppid();
-	if (pid == 1)
-	{
-#ifdef	UTEMPTER_DEBUG
+	if (pid == 1) {
+#ifdef UTEMPTER_DEBUG
 		fprintf(stderr,
 			"utempter: parent process should not be init\n");
 #endif
@@ -231,9 +216,8 @@ main(int argc, const char *argv[])
 	}
 
 	pw = getpwuid(getuid());
-	if (!pw || !pw->pw_name)
-	{
-#ifdef	UTEMPTER_DEBUG
+	if (!pw || !pw->pw_name) {
+#ifdef UTEMPTER_DEBUG
 		fprintf(stderr,
 			"utempter: cannot find valid user with uid=%u\n",
 			getuid());
@@ -243,9 +227,8 @@ main(int argc, const char *argv[])
 
 	device = ptsname(STDIN_FILENO);
 
-	if (!device)
-	{
-#ifdef	UTEMPTER_DEBUG
+	if (!device) {
+#ifdef UTEMPTER_DEBUG
 		fprintf(stderr, "utempter: cannot find slave pty: %s\n",
 			strerror(errno));
 #endif

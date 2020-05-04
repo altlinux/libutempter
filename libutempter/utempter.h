@@ -1,4 +1,3 @@
-
 /*
   Copyright (C) 2001,2002  Dmitry V. Levin <ldv@altlinux.org>
 
@@ -20,27 +19,26 @@
 */
 
 #ifndef UTEMPTER_H
-#define UTEMPTER_H
+# define UTEMPTER_H
 
-#ifdef	__cplusplus
-extern  "C" {
-#endif
+# ifdef __cplusplus
+extern "C" {
+# endif
 
 /* New interface. */
 
-extern int utempter_add_record (int master_fd, const char *hostname);
-extern int utempter_remove_record (int master_fd);
-extern int utempter_remove_added_record (void);
-extern void utempter_set_helper (const char *pathname);
+extern int utempter_add_record(int master_fd, const char *hostname);
+extern int utempter_remove_record(int master_fd);
+extern int utempter_remove_added_record(void);
+extern void utempter_set_helper(const char *pathname);
 
 /* Old interface. */
 
-extern void addToUtmp (const char *pty, const char *hostname, int master_fd);
-extern void removeFromUtmp (void);
-extern void removeLineFromUtmp (const char *pty, int master_fd);
+extern void addToUtmp(const char *pty, const char *hostname, int master_fd);
+extern void removeFromUtmp(void);
+extern void removeLineFromUtmp(const char *pty, int master_fd);
 
-#ifdef	__cplusplus
+# ifdef __cplusplus
 }
-#endif
-
+# endif
 #endif /* UTEMPTER_H */
