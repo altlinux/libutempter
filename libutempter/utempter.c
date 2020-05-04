@@ -34,12 +34,9 @@
 #include <sys/time.h>
 #include <utmp.h>
 
-#ifdef __GLIBC__
-#elif defined(__FreeBSD__)
+#ifdef __FreeBSD__
 # include <libutil.h>
-#else
-# error Unsupported platform
-#endif /* __GLIBC__ || __FreeBSD__ */
+#endif
 
 #define DEV_PREFIX	"/dev/"
 #define DEV_PREFIX_LEN	(sizeof(DEV_PREFIX) - 1)
@@ -101,10 +98,7 @@ validate_device(const char *device)
 
 static int
 write_uwtmp_record(const char *user, const char *term, const char *host,
-#ifdef __GLIBC__
-		   pid_t pid,
-#endif
-		   int add)
+		   pid_t pid, int add)
 {
 	struct utmp ut;
 	struct timeval tv;
@@ -126,7 +120,25 @@ write_uwtmp_record(const char *user, const char *term, const char *host,
 	len = strlen(term);
 	memcpy(ut.ut_line, term, MIN(sizeof(ut.ut_line), len));
 
-#ifdef __GLIBC__
+#ifdef __FreeBSD__
+
+	(void) pid;
+
+	ut.ut_time = tv.tv_sec;
+
+	if (add) {
+		login(&ut);
+	} else {
+		if (logout(term) != 1) {
+# ifdef UTEMPTER_DEBUG
+			fprintf(stderr, "utempter: logout: %s\n",
+				strerror(errno));
+# endif
+			exit(EXIT_FAILURE);
+		}
+	}
+
+#else /* !__FreeBSD__ */
 
 	size_t offset = (len <= sizeof(ut.ut_id)) ? 0 :
 			len - sizeof(ut.ut_id);
@@ -153,23 +165,7 @@ write_uwtmp_record(const char *user, const char *term, const char *host,
 
 	(void) updwtmp(_PATH_WTMP, &ut);
 
-#elif defined(__FreeBSD__)
-
-	ut.ut_time = tv.tv_sec;
-
-	if (add) {
-		login(&ut);
-	} else {
-		if (logout(term) != 1) {
-# ifdef UTEMPTER_DEBUG
-			fprintf(stderr, "utempter: logout: %s\n",
-				strerror(errno));
-# endif
-			exit(EXIT_FAILURE);
-		}
-	}
-
-#endif /* __GLIBC__ || __FreeBSD__ */
+#endif /* !__FreeBSD__ */
 
 #ifdef UTEMPTER_DEBUG
 	fprintf(stderr,
@@ -243,8 +239,5 @@ main(int argc, const char *argv[])
 	validate_device(device);
 
 	return write_uwtmp_record(pw->pw_name, device + DEV_PREFIX_LEN, host,
-#ifdef __GLIBC__
-				  pid,
-#endif
-				  add);
+				  pid, add);
 }
