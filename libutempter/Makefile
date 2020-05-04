@@ -60,7 +60,7 @@ all: $(TARGETS)
 %.os: %.c
 	$(COMPILE.c) $(COMPILE_PIC) $< $(OUTPUT_OPTION)
 
-$(PROJECT): utempter.c
+$(PROJECT): utempter.c diag.h
 	$(LINK.c) $(COMPILE_PIE) $(LINK_PIE) $(LINK_NOW) $(LDLIBS) $< $(OUTPUT_OPTION)
 
 $(SHAREDLIB): iface.os $(MAP)
@@ -72,9 +72,9 @@ $(STATICLIB): iface.o
 	$(AR) $(ARFLAGS) $@ $<
 	-ranlib $@
 
-iface.os: iface.c utempter.h
+iface.os: iface.c utempter.h diag.h
 
-iface.o: iface.c utempter.h
+iface.o: iface.c utempter.h diag.h
 
 install:
 	mkdir -p $(DESTDIR)$(libdir) $(DESTDIR)$(libexecdir)/$(PROJECT) \

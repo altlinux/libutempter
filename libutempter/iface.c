@@ -32,6 +32,7 @@
 #include <sys/types.h>
 
 #include "utempter.h"
+#include "diag.h"
 
 #ifndef TEMP_FAILURE_RETRY
 # define TEMP_FAILURE_RETRY(expression) \
@@ -52,16 +53,12 @@ do_child(int master_fd, const char *path, char *const *argv)
 {
 	if ((dup2(master_fd, STDIN_FILENO) != STDIN_FILENO)
 	    || (dup2(master_fd, STDOUT_FILENO) != STDOUT_FILENO)) {
-#ifdef UTEMPTER_DEBUG
-		fprintf(stderr, "libutempter: dup2: %s\n", strerror(errno));
-#endif
+		print_dbg("dup2: %s", strerror(errno));
 		_exit(EXIT_FAILURE);
 	}
 
 	execv(path, argv);
-#ifdef UTEMPTER_DEBUG
-	fprintf(stderr, "libutempter: execv: %s\n", strerror(errno));
-#endif
+	print_dbg("execv: %s", strerror(errno));
 
 	while (EACCES == errno) {
 		/* try saved group ID */
@@ -93,10 +90,7 @@ execute_helper(int master_fd, const char *const argv[])
 	sigemptyset(&action.sa_mask);
 
 	if (sigaction(SIGCHLD, &action, &saved_action) < 0) {
-#ifdef UTEMPTER_DEBUG
-		fprintf(stderr, "libutempter: sigaction: %s\n",
-			strerror(errno));
-#endif
+		print_dbg("sigaction: %s", strerror(errno));
 		return 0;
 	} else {
 		pid_t child;
@@ -106,18 +100,12 @@ execute_helper(int master_fd, const char *const argv[])
 		if (!child) {
 			do_child(master_fd, argv[0], (char *const *) argv);
 		} else if (child < 0) {
-#ifdef UTEMPTER_DEBUG
-			fprintf(stderr, "libutempter: fork: %s\n",
-				strerror(errno));
-#endif
+			print_dbg("fork: %s", strerror(errno));
 			goto ret;
 		}
 
 		if (TEMP_FAILURE_RETRY(waitpid(child, &status, 0)) < 0) {
-#ifdef UTEMPTER_DEBUG
-			fprintf(stderr, "libutempter: waitpid: %s\n",
-				strerror(errno));
-#endif
+			print_dbg("waitpid: %s", strerror(errno));
 			status = 1;
 		}
 

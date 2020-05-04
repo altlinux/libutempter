@@ -39,18 +39,10 @@
 # include <libutil.h>
 #endif
 
+#include "diag.h"
+
 #define DEV_PREFIX	"/dev/"
 #define DEV_PREFIX_LEN	(sizeof(DEV_PREFIX) - 1)
-
-static void __attribute__((__noreturn__))
-usage(void)
-{
-#ifdef UTEMPTER_DEBUG
-	fprintf(stderr, "Usage: utempter add [<host>]\n"
-			"       utempter del\n");
-#endif
-	exit(EXIT_FAILURE);
-}
 
 #define MIN(a_, b_) (((a_) < (b_)) ? (a_) : (b_))
 
@@ -60,53 +52,28 @@ validate_device(const char *device)
 	int flags;
 	struct stat stb;
 
-	if (strncmp(device, DEV_PREFIX, DEV_PREFIX_LEN)) {
-#ifdef UTEMPTER_DEBUG
-		fprintf(stderr, "utempter: invalid device name\n");
-#endif
-		exit(EXIT_FAILURE);
-	}
+	if (strncmp(device, DEV_PREFIX, DEV_PREFIX_LEN))
+		fatal_error("invalid device name");
 
-	if ((flags = fcntl(STDIN_FILENO, F_GETFL, 0)) < 0) {
-#ifdef UTEMPTER_DEBUG
-		fprintf(stderr, "utempter: fcntl: %s\n", strerror(errno));
-#endif
-		exit(EXIT_FAILURE);
-	}
+	if ((flags = fcntl(STDIN_FILENO, F_GETFL, 0)) < 0)
+		fatal_error("fcntl: %s", strerror(errno));
 
-	if ((flags & O_RDWR) != O_RDWR) {
-#ifdef UTEMPTER_DEBUG
-		fprintf(stderr, "utempter: invalid descriptor mode\n");
-#endif
-		exit(EXIT_FAILURE);
-	}
+	if ((flags & O_RDWR) != O_RDWR)
+		fatal_error("invalid descriptor mode");
 
-	if (stat(device, &stb) < 0) {
-#ifdef UTEMPTER_DEBUG
-		fprintf(stderr, "utempter: %s: %s\n", device, strerror(errno));
-#endif
-		exit(EXIT_FAILURE);
-	}
+	if (stat(device, &stb) < 0)
+		fatal_error("%s: %s", device, strerror(errno));
 
-	if (getuid() != stb.st_uid) {
-#ifdef UTEMPTER_DEBUG
-		fprintf(stderr, "utempter: %s belongs to another user\n",
-			device);
-#endif
-		exit(EXIT_FAILURE);
-	}
+	if (getuid() != stb.st_uid)
+		fatal_error("%s belongs to another user", device);
 }
 
 static void
 validate_hostname(const char *host)
 {
 	for (; host[0]; ++host) {
-		if (!isgraph((unsigned char) host[0])) {
-#ifdef UTEMPTER_DEBUG
-			fprintf(stderr, "utempter: invalid host name\n");
-#endif
-			exit(EXIT_FAILURE);
-		}
+		if (!isgraph((unsigned char) host[0]))
+			fatal_error("invalid host name");
 	}
 }
 
@@ -143,13 +110,8 @@ write_uwtmp_record(const char *user, const char *term, const char *host,
 	if (add) {
 		login(&ut);
 	} else {
-		if (logout(term) != 1) {
-# ifdef UTEMPTER_DEBUG
-			fprintf(stderr, "utempter: logout: %s\n",
-				strerror(errno));
-# endif
-			exit(EXIT_FAILURE);
-		}
+		if (logout(term) != 1)
+			fatal_error("logout: %s", strerror(errno));
 	}
 
 #else /* !__FreeBSD__ */
@@ -169,23 +131,16 @@ write_uwtmp_record(const char *user, const char *term, const char *host,
 	ut.ut_tv.tv_usec = (__typeof__(ut.ut_tv.tv_usec)) tv.tv_usec;
 
 	setutent();
-	if (!pututline(&ut)) {
-# ifdef UTEMPTER_DEBUG
-		fprintf(stderr, "utempter: pututline: %s\n", strerror(errno));
-# endif
-		exit(EXIT_FAILURE);
-	}
+	if (!pututline(&ut))
+		fatal_error("pututline: %s", strerror(errno));
 	endutent();
 
 	(void) updwtmp(_PATH_WTMP, &ut);
 
 #endif /* !__FreeBSD__ */
 
-#ifdef UTEMPTER_DEBUG
-	fprintf(stderr,
-		"utempter: DEBUG: utmp/wtmp record %s for terminal '%s'\n",
-		add ? "added" : "removed", term);
-#endif
+	debug_msg("utmp/wtmp record %s for terminal '%s'",
+		  add ? "added" : "removed", term);
 	return EXIT_SUCCESS;
 }
 
@@ -206,49 +161,32 @@ main(int argc, const char *argv[])
 	}
 
 	if (argc < 2)
-		usage();
+		fatal_error("usage error");
 
 	if (!strcmp(argv[1], "add")) {
 		if (argc > 3)
-			usage();
+			fatal_error("usage error");
 		add = 1;
 	} else if (!strcmp(argv[1], "del")) {
 		if (argc != 2)
-			usage();
+			fatal_error("usage error");
 		add = 0;
 	} else
-		usage();
+		fatal_error("usage error");
 
 	host = argv[2];
 
 	pid = getppid();
-	if (pid == 1) {
-#ifdef UTEMPTER_DEBUG
-		fprintf(stderr,
-			"utempter: parent process should not be init\n");
-#endif
-		exit(EXIT_FAILURE);
-	}
+	if (pid == 1)
+		fatal_error("parent process should not be init");
 
 	pw = getpwuid(getuid());
-	if (!pw || !pw->pw_name) {
-#ifdef UTEMPTER_DEBUG
-		fprintf(stderr,
-			"utempter: cannot find valid user with uid=%u\n",
-			getuid());
-#endif
-		exit(EXIT_FAILURE);
-	}
+	if (!pw || !pw->pw_name)
+		fatal_error("cannot find a valid user with uid=%u", getuid());
 
 	device = ptsname(STDIN_FILENO);
-
-	if (!device) {
-#ifdef UTEMPTER_DEBUG
-		fprintf(stderr, "utempter: cannot find slave pty: %s\n",
-			strerror(errno));
-#endif
-		exit(EXIT_FAILURE);
-	}
+	if (!device)
+		fatal_error("cannot find slave pty: %s", strerror(errno));
 
 	validate_device(device);
 	if (host)
