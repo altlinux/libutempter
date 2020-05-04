@@ -35,7 +35,6 @@
 #include <utmp.h>
 
 #ifdef __GLIBC__
-# include <pty.h>
 #elif defined(__FreeBSD__)
 # include <libutil.h>
 #else
