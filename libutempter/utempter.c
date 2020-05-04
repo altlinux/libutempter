@@ -54,6 +54,8 @@ usage(void)
 	exit(EXIT_FAILURE);
 }
 
+#define MIN(a_, b_) (((a_) < (b_)) ? (a_) : (b_))
+
 static void
 validate_device(const char *device)
 {
@@ -106,26 +108,29 @@ write_uwtmp_record(const char *user, const char *term, const char *host,
 {
 	struct utmp ut;
 	struct timeval tv;
-
-#ifdef __GLIBC__
-	size_t offset;
-#endif
+	size_t len;
 
 	memset(&ut, 0, sizeof(ut));
 
 	memset(&tv, 0, sizeof(tv));
 	(void) gettimeofday(&tv, 0);
 
-	strncpy(ut.ut_name, user, sizeof(ut.ut_name));
-	strncpy(ut.ut_line, term, sizeof(ut.ut_line));
-	if (host)
-		strncpy(ut.ut_host, host, sizeof(ut.ut_host));
+	len = strlen(user);
+	memcpy(ut.ut_name, user, MIN(sizeof(ut.ut_name), len));
+
+	if (host) {
+		len = strlen(host);
+		memcpy(ut.ut_host, host, MIN(sizeof(ut.ut_host), len));
+	}
+
+	len = strlen(term);
+	memcpy(ut.ut_line, term, MIN(sizeof(ut.ut_line), len));
 
 #ifdef __GLIBC__
 
-	offset = (strlen(term) <= sizeof(ut.ut_id)) ? 0 :
-		strlen(term) - sizeof(ut.ut_id);
-	strncpy(ut.ut_id, term + offset, sizeof(ut.ut_id));
+	size_t offset = (len <= sizeof(ut.ut_id)) ? 0 :
+			len - sizeof(ut.ut_id);
+	memcpy(ut.ut_id, term + offset, len - offset);
 
 	if (add)
 		ut.ut_type = USER_PROCESS;
