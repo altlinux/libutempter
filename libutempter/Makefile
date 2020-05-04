@@ -72,6 +72,8 @@ $(STATICLIB): iface.o
 	$(AR) $(ARFLAGS) $@ $<
 	-ranlib $@
 
+iface.os: iface.c utempter.h
+
 iface.o: iface.c utempter.h
 
 install:
