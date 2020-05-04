@@ -34,9 +34,19 @@ extern void utempter_set_helper(const char *pathname);
 
 /* Old interface. */
 
-extern void addToUtmp(const char *pty, const char *hostname, int master_fd);
-extern void removeFromUtmp(void);
-extern void removeLineFromUtmp(const char *pty, int master_fd);
+# if defined __GNUC__ && defined __GNUC_MINOR__ && \
+     (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 5))
+#  define UTEMPTER_DEPRECATED_MSG(msg) __attribute__((__deprecated__(msg)))
+# else
+#  define UTEMPTER_DEPRECATED_MSG(msg) /* empty */
+# endif
+
+extern void addToUtmp(const char *pty, const char *hostname, int master_fd)
+	UTEMPTER_DEPRECATED_MSG("better use utempter_add_record instead");
+extern void removeFromUtmp(void)
+	UTEMPTER_DEPRECATED_MSG("better use utempter_remove_added_record instead");
+extern void removeLineFromUtmp(const char *pty, int master_fd)
+	UTEMPTER_DEPRECATED_MSG("better use utempter_remove_record instead");
 
 # ifdef __cplusplus
 }
