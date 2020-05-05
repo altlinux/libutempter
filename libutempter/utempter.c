@@ -35,10 +35,6 @@
 #include <sys/time.h>
 #include <utmp.h>
 
-#ifdef __FreeBSD__
-# include <libutil.h>
-#endif
-
 #include "diag.h"
 
 #define DEV_PREFIX	"/dev/"
@@ -83,7 +79,7 @@ write_uwtmp_record(const char *user, const char *term, const char *host,
 {
 	struct utmp ut;
 	struct timeval tv;
-	size_t len;
+	size_t len, offset;
 
 	memset(&ut, 0, sizeof(ut));
 
@@ -101,23 +97,7 @@ write_uwtmp_record(const char *user, const char *term, const char *host,
 	len = strlen(term);
 	memcpy(ut.ut_line, term, MIN(sizeof(ut.ut_line), len));
 
-#ifdef __FreeBSD__
-
-	(void) pid;
-
-	ut.ut_time = tv.tv_sec;
-
-	if (add) {
-		login(&ut);
-	} else {
-		if (logout(term) != 1)
-			fatal_error("logout: %s", strerror(errno));
-	}
-
-#else /* !__FreeBSD__ */
-
-	size_t offset = (len <= sizeof(ut.ut_id)) ? 0 :
-			len - sizeof(ut.ut_id);
+	offset = len <= sizeof(ut.ut_id) ? 0 : len - sizeof(ut.ut_id);
 	memcpy(ut.ut_id, term + offset, len - offset);
 
 	if (add)
@@ -136,8 +116,6 @@ write_uwtmp_record(const char *user, const char *term, const char *host,
 	endutent();
 
 	(void) updwtmp(_PATH_WTMP, &ut);
-
-#endif /* !__FreeBSD__ */
 
 	debug_msg("utmp/wtmp record %s for terminal '%s'",
 		  add ? "added" : "removed", term);
