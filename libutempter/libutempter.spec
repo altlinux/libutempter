@@ -1,5 +1,5 @@
 Name: libutempter
-Version: 1.1.7
+Version: 1.2.0
 Release: alt1
 
 Summary: A privileged helper for utmp/wtmp updates
@@ -44,11 +44,11 @@ statically linked utempter-based software.
 %setup
 
 %build
+%add_optflags -Werror
 %make_build libdir="%_libdir" libexecdir="%_libexecdir" "COMPILE_LFS=$(getconf LFS_CFLAGS)"
 
 %install
-%makeinstall_std \
-	libdir="%_libdir" libexecdir="%_libexecdir"
+%makeinstall_std libdir="%_libdir" libexecdir="%_libexecdir"
 
 %pre
 /usr/sbin/groupadd -r -f utmp
@@ -69,8 +69,18 @@ statically linked utempter-based software.
 %_libdir/*.a
 
 %changelog
+* Tue May 05 2020 Dmitry V. Levin <ldv@altlinux.org> 1.2.0-alt1
+- Removed obsolete FreeBSD support.
+- Enabled build with non-glibc libcs.
+- Silenced -Wconversion and -Wstringop-truncation compilation warnings.
+- Added deprecation warnings to the old API.
+- Implemented host argument validation.
+- Implemented optional syslog support.
+- Built with -Werror.
+
 * Tue Sep 16 2014 Dmitry V. Levin <ldv@altlinux.org> 1.1.7-alt1
-- Build utempter as a PIE.
+- Parametrized compiler and linker options further.
+- Built utempter as a PIE.
 
 * Wed Mar 09 2011 Dmitry V. Levin <ldv@altlinux.org> 1.1.6-alt2
 - Rebuilt for debuginfo.
