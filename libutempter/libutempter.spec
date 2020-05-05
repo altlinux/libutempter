@@ -184,4 +184,3 @@ statically linked utempter-based software.
 
 * Fri Jun  4 1999 Jeff Johnson <jbj@redhat.com>
 - ignore SIGCHLD while processing utmp.
-
