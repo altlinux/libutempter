@@ -5,6 +5,7 @@ Release: alt1
 Summary: A privileged helper for utmp/wtmp updates
 License: LGPLv2+
 Group: System/Libraries
+Url: https://github.com/altlinux/libutempter
 
 Source: %name-%version.tar
 
