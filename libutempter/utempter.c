@@ -67,8 +67,8 @@ validate_device(const char *device)
 static void
 validate_hostname(const char *host)
 {
-	for (; host[0]; ++host) {
-		if (!isgraph((unsigned char) host[0]))
+	for (const char *p = host; p[0]; ++p) {
+		if (!(p == host ? isgraph : isprint)((unsigned char) p[0]))
 			fatal_error("invalid host name");
 	}
 }
