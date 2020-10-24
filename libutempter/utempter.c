@@ -69,7 +69,7 @@ validate_hostname(const char *host)
 {
 	for (const char *p = host; p[0]; ++p) {
 		if (!(p == host ? isgraph : isprint)((unsigned char) p[0]))
-			fatal_error("invalid host name");
+			fatal_error("invalid host name (contains %#x)", (unsigned char) p[0]);
 	}
 }
 
