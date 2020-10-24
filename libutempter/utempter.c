@@ -68,8 +68,10 @@ static void
 validate_hostname(const char *host)
 {
 	for (const char *p = host; p[0]; ++p) {
-		if (!(p == host ? isgraph : isprint)((unsigned char) p[0]))
-			fatal_error("invalid host name");
+		unsigned char c = (unsigned char) p[0];
+
+		if (!(p == host ? isgraph : isprint)(c))
+			fatal_error("invalid host name (contains %#x)", c);
 	}
 }
 
