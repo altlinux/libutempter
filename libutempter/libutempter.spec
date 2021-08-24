@@ -1,5 +1,5 @@
 Name: libutempter
-Version: 1.2.1
+Version: 1.2.2
 Release: alt1
 
 Summary: A privileged helper for utmp/wtmp updates
@@ -70,6 +70,10 @@ statically linked utempter-based software.
 %_man3dir/*
 
 %changelog
+* Tue Aug 24 2021 Dmitry V. Levin <ldv@altlinux.org> 1.2.2-alt1
+- utempter: print invalid character in hex on hostname validation failure.
+- Disabled build and packaging of libutempter.a.
+
 * Mon Jul 06 2020 Dmitry V. Levin <ldv@altlinux.org> 1.2.1-alt1
 - utempter: relaxed host argument validation: it is now allowed
   to contain spaces except in the first character.
