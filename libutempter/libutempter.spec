@@ -50,6 +50,10 @@ statically linked utempter-based software.
 %install
 %makeinstall_std libdir="%_libdir" libexecdir="%_libexecdir"
 
+%define _unpackaged_files_terminate_build 1
+%define _stripped_files_terminate_build 1
+%set_verify_elf_method strict
+
 %pre
 /usr/sbin/groupadd -r -f utmp
 /usr/sbin/groupadd -r -f utempter
