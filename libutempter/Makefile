@@ -27,7 +27,7 @@ SONAME = $(SHAREDLIB).$(MAJOR)
 STATICLIB = lib$(PROJECT).a
 MAP = lib$(PROJECT).map
 
-TARGETS = $(PROJECT) $(SHAREDLIB) $(STATICLIB)
+TARGETS = $(PROJECT) $(SHAREDLIB)
 
 INSTALL = install
 libdir = /usr/lib
@@ -82,7 +82,6 @@ install:
 	$(INSTALL) -p -m2711 $(PROJECT) $(DESTDIR)$(libexecdir)/$(PROJECT)/
 	$(INSTALL) -p -m644 $(PROJECT).h $(DESTDIR)$(includedir)/
 	$(INSTALL) -p -m755 $(SHAREDLIB) $(DESTDIR)$(libdir)/$(SHAREDLIB).$(VERSION)
-	$(INSTALL) -p -m644 $(STATICLIB) $(DESTDIR)$(libdir)/
 	ln -s $(SHAREDLIB).$(VERSION) $(DESTDIR)$(libdir)/$(SONAME)
 	ln -s $(SONAME) $(DESTDIR)$(libdir)/$(SHAREDLIB)
 	$(INSTALL) -p -m644 $(PROJECT).3 $(DESTDIR)$(man3dir)/

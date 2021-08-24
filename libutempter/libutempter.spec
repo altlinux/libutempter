@@ -65,9 +65,6 @@ statically linked utempter-based software.
 %_includedir/*
 %_man3dir/*
 
-%files devel-static
-%_libdir/*.a
-
 %changelog
 * Mon Jul 06 2020 Dmitry V. Levin <ldv@altlinux.org> 1.2.1-alt1
 - utempter: relaxed host argument validation: it is now allowed
