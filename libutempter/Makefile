@@ -55,6 +55,12 @@ override CFLAGS := $(WARNINGS) $(CFLAGS) $(RPM_OPT_FLAGS)
 override LDFLAGS := $(LINK_RELRO) $(LINK_STATS) $(LDFLAGS)
 LDLIBS =
 
+INC = -I /usr/include/CUnit
+LIBS = -L -dynamics /usr/lib64/libcunit.so ./libutempter.so iface.o
+TEST_FLAGS = -g -lutil
+TEST_FLAGS += $(INC)
+BIN = test_utempter
+test_utempter = ./test/test_utempter.c
 all: $(TARGETS)
 
 %.os: %.c
@@ -91,5 +97,12 @@ install:
 		ln -s $(PROJECT).3 $(DESTDIR)$(man3dir)/$$n.3; \
 	done
 
+check:
+	echo "run check"
+	$(CC) $(test_utempter) -o $(BIN) $(TEST_FLAGS) $(LIBS)
+	chmod +x run_test.sh
+	./run_test.sh
+
 clean:
 	$(RM) $(TARGETS) iface.o iface.os core *~
+	$(RM) $(BIN) *.o *.gcda *.gcno *.xml app.info
