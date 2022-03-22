@@ -1,6 +1,6 @@
 Name: libutempter
-Version: 1.2.1
-Release: alt1
+Version: 1.2.2
+Release: zc1
 
 Summary: A privileged helper for utmp/wtmp updates
 License: LGPLv2+
@@ -69,6 +69,10 @@ statically linked utempter-based software.
 %_libdir/*.a
 
 %changelog
+* Wed Mar 16 2022 Ziyang Chen <chenziyang76@163.com> 1.2.2-zc1
+- utempter: add cunit test for libutempter. Specifically add 2 tests
+  to verify function of libutempter interface.
+
 * Mon Jul 06 2020 Dmitry V. Levin <ldv@altlinux.org> 1.2.1-alt1
 - utempter: relaxed host argument validation: it is now allowed
   to contain spaces except in the first character.
