@@ -25,7 +25,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   gcc11-x86_64:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       CC: gcc-11
       TARGET: x86_64
@@ -123,7 +123,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   clang12-x86_64:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       CC: clang-12
       TARGET: x86_64
@@ -207,7 +207,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   gcc11-x32:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       CC: gcc-11
       TARGET: x32
@@ -277,7 +277,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   gcc11-x86:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       CC: gcc-11
       TARGET: x86
@@ -347,7 +347,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   clang12-x86:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       CC: clang-12
       TARGET: x86
@@ -445,7 +445,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   gcc11-x86_64-debug:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       CC: gcc-11
       CPPFLAGS: -DUTEMPTER_DEBUG
@@ -520,7 +520,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   clang12-x86_64-debug:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       CC: clang-12
       CPPFLAGS: -DUTEMPTER_DEBUG
@@ -610,7 +610,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   gcc11-x32-debug:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       CC: gcc-11
       CPPFLAGS: -DUTEMPTER_DEBUG
@@ -685,7 +685,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   gcc11-x86-debug:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       CC: gcc-11
       CPPFLAGS: -DUTEMPTER_DEBUG
@@ -760,7 +760,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   clang12-x86-debug:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       CC: clang-12
       CPPFLAGS: -DUTEMPTER_DEBUG
@@ -865,7 +865,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   gcc11-x86_64-log:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       CC: gcc-11
       CPPFLAGS: -DUTEMPTER_LOG
@@ -940,7 +940,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   clang12-x86_64-log:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       CC: clang-12
       CPPFLAGS: -DUTEMPTER_LOG
@@ -1030,7 +1030,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   gcc11-x32-log:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       CC: gcc-11
       CPPFLAGS: -DUTEMPTER_LOG
@@ -1105,7 +1105,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   gcc11-x86-log:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       CC: gcc-11
       CPPFLAGS: -DUTEMPTER_LOG
@@ -1180,7 +1180,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   clang12-x86-log:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       CC: clang-12
       CPPFLAGS: -DUTEMPTER_LOG
