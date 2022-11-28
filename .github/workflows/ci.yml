@@ -66,34 +66,6 @@ jobs:
     - name: build check
       run: ci/run-build-and-tests.sh
 
-  gcc8-x86_64:
-    runs-on: ubuntu-latest
-    env:
-      CC: gcc-8
-      TARGET: x86_64
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: install dependencies
-      run: ci/install-dependencies.sh
-    - name: build check
-      run: ci/run-build-and-tests.sh
-
-  gcc7-x86_64:
-    runs-on: ubuntu-latest
-    env:
-      CC: gcc-7
-      TARGET: x86_64
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: install dependencies
-      run: ci/install-dependencies.sh
-    - name: build check
-      run: ci/run-build-and-tests.sh
-
   clang14-x86_64:
     runs-on: ubuntu-22.04
     env:
@@ -150,62 +122,6 @@ jobs:
     - name: build check
       run: ci/run-build-and-tests.sh
 
-  clang10-x86_64:
-    runs-on: ubuntu-latest
-    env:
-      CC: clang-10
-      TARGET: x86_64
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: install dependencies
-      run: ci/install-dependencies.sh
-    - name: build check
-      run: ci/run-build-and-tests.sh
-
-  clang9-x86_64:
-    runs-on: ubuntu-latest
-    env:
-      CC: clang-9
-      TARGET: x86_64
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: install dependencies
-      run: ci/install-dependencies.sh
-    - name: build check
-      run: ci/run-build-and-tests.sh
-
-  clang8-x86_64:
-    runs-on: ubuntu-latest
-    env:
-      CC: clang-8
-      TARGET: x86_64
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: install dependencies
-      run: ci/install-dependencies.sh
-    - name: build check
-      run: ci/run-build-and-tests.sh
-
-  clang7-x86_64:
-    runs-on: ubuntu-latest
-    env:
-      CC: clang-7
-      TARGET: x86_64
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: install dependencies
-      run: ci/install-dependencies.sh
-    - name: build check
-      run: ci/run-build-and-tests.sh
-
   gcc11-x32:
     runs-on: ubuntu-22.04
     env:
@@ -238,34 +154,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       CC: gcc-9
-      TARGET: x32
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: install dependencies
-      run: ci/install-dependencies.sh
-    - name: build check
-      run: ci/run-build-and-tests.sh
-
-  gcc8-x32:
-    runs-on: ubuntu-latest
-    env:
-      CC: gcc-8
-      TARGET: x32
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: install dependencies
-      run: ci/install-dependencies.sh
-    - name: build check
-      run: ci/run-build-and-tests.sh
-
-  gcc7-x32:
-    runs-on: ubuntu-latest
-    env:
-      CC: gcc-7
       TARGET: x32
     steps:
     - uses: actions/checkout@v2
@@ -318,34 +206,6 @@ jobs:
     - name: build check
       run: ci/run-build-and-tests.sh
 
-  gcc8-x86:
-    runs-on: ubuntu-latest
-    env:
-      CC: gcc-8
-      TARGET: x86
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: install dependencies
-      run: ci/install-dependencies.sh
-    - name: build check
-      run: ci/run-build-and-tests.sh
-
-  gcc7-x86:
-    runs-on: ubuntu-latest
-    env:
-      CC: gcc-7
-      TARGET: x86
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: install dependencies
-      run: ci/install-dependencies.sh
-    - name: build check
-      run: ci/run-build-and-tests.sh
-
   clang12-x86:
     runs-on: ubuntu-22.04
     env:
@@ -364,62 +224,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       CC: clang-11
-      TARGET: x86
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: install dependencies
-      run: ci/install-dependencies.sh
-    - name: build check
-      run: ci/run-build-and-tests.sh
-
-  clang10-x86:
-    runs-on: ubuntu-latest
-    env:
-      CC: clang-10
-      TARGET: x86
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: install dependencies
-      run: ci/install-dependencies.sh
-    - name: build check
-      run: ci/run-build-and-tests.sh
-
-  clang9-x86:
-    runs-on: ubuntu-latest
-    env:
-      CC: clang-9
-      TARGET: x86
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: install dependencies
-      run: ci/install-dependencies.sh
-    - name: build check
-      run: ci/run-build-and-tests.sh
-
-  clang8-x86:
-    runs-on: ubuntu-latest
-    env:
-      CC: clang-8
-      TARGET: x86
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: install dependencies
-      run: ci/install-dependencies.sh
-    - name: build check
-      run: ci/run-build-and-tests.sh
-
-  clang7-x86:
-    runs-on: ubuntu-latest
-    env:
-      CC: clang-7
       TARGET: x86
     steps:
     - uses: actions/checkout@v2
@@ -489,36 +293,6 @@ jobs:
     - name: build check
       run: ci/run-build-and-tests.sh
 
-  gcc8-x86_64-debug:
-    runs-on: ubuntu-latest
-    env:
-      CC: gcc-8
-      CPPFLAGS: -DUTEMPTER_DEBUG
-      TARGET: x86_64
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: install dependencies
-      run: ci/install-dependencies.sh
-    - name: build check
-      run: ci/run-build-and-tests.sh
-
-  gcc7-x86_64-debug:
-    runs-on: ubuntu-latest
-    env:
-      CC: gcc-7
-      CPPFLAGS: -DUTEMPTER_DEBUG
-      TARGET: x86_64
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: install dependencies
-      run: ci/install-dependencies.sh
-    - name: build check
-      run: ci/run-build-and-tests.sh
-
   clang12-x86_64-debug:
     runs-on: ubuntu-22.04
     env:
@@ -538,66 +312,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       CC: clang-11
-      CPPFLAGS: -DUTEMPTER_DEBUG
-      TARGET: x86_64
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: install dependencies
-      run: ci/install-dependencies.sh
-    - name: build check
-      run: ci/run-build-and-tests.sh
-
-  clang10-x86_64-debug:
-    runs-on: ubuntu-latest
-    env:
-      CC: clang-10
-      CPPFLAGS: -DUTEMPTER_DEBUG
-      TARGET: x86_64
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: install dependencies
-      run: ci/install-dependencies.sh
-    - name: build check
-      run: ci/run-build-and-tests.sh
-
-  clang9-x86_64-debug:
-    runs-on: ubuntu-latest
-    env:
-      CC: clang-9
-      CPPFLAGS: -DUTEMPTER_DEBUG
-      TARGET: x86_64
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: install dependencies
-      run: ci/install-dependencies.sh
-    - name: build check
-      run: ci/run-build-and-tests.sh
-
-  clang8-x86_64-debug:
-    runs-on: ubuntu-latest
-    env:
-      CC: clang-8
-      CPPFLAGS: -DUTEMPTER_DEBUG
-      TARGET: x86_64
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: install dependencies
-      run: ci/install-dependencies.sh
-    - name: build check
-      run: ci/run-build-and-tests.sh
-
-  clang7-x86_64-debug:
-    runs-on: ubuntu-latest
-    env:
-      CC: clang-7
       CPPFLAGS: -DUTEMPTER_DEBUG
       TARGET: x86_64
     steps:
@@ -654,36 +368,6 @@ jobs:
     - name: build check
       run: ci/run-build-and-tests.sh
 
-  gcc8-x32-debug:
-    runs-on: ubuntu-latest
-    env:
-      CC: gcc-8
-      CPPFLAGS: -DUTEMPTER_DEBUG
-      TARGET: x32
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: install dependencies
-      run: ci/install-dependencies.sh
-    - name: build check
-      run: ci/run-build-and-tests.sh
-
-  gcc7-x32-debug:
-    runs-on: ubuntu-latest
-    env:
-      CC: gcc-7
-      CPPFLAGS: -DUTEMPTER_DEBUG
-      TARGET: x32
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: install dependencies
-      run: ci/install-dependencies.sh
-    - name: build check
-      run: ci/run-build-and-tests.sh
-
   gcc11-x86-debug:
     runs-on: ubuntu-22.04
     env:
@@ -729,36 +413,6 @@ jobs:
     - name: build check
       run: ci/run-build-and-tests.sh
 
-  gcc8-x86-debug:
-    runs-on: ubuntu-latest
-    env:
-      CC: gcc-8
-      CPPFLAGS: -DUTEMPTER_DEBUG
-      TARGET: x86
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: install dependencies
-      run: ci/install-dependencies.sh
-    - name: build check
-      run: ci/run-build-and-tests.sh
-
-  gcc7-x86-debug:
-    runs-on: ubuntu-latest
-    env:
-      CC: gcc-7
-      CPPFLAGS: -DUTEMPTER_DEBUG
-      TARGET: x86
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: install dependencies
-      run: ci/install-dependencies.sh
-    - name: build check
-      run: ci/run-build-and-tests.sh
-
   clang12-x86-debug:
     runs-on: ubuntu-22.04
     env:
@@ -778,66 +432,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       CC: clang-11
-      CPPFLAGS: -DUTEMPTER_DEBUG
-      TARGET: x86
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: install dependencies
-      run: ci/install-dependencies.sh
-    - name: build check
-      run: ci/run-build-and-tests.sh
-
-  clang10-x86-debug:
-    runs-on: ubuntu-latest
-    env:
-      CC: clang-10
-      CPPFLAGS: -DUTEMPTER_DEBUG
-      TARGET: x86
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: install dependencies
-      run: ci/install-dependencies.sh
-    - name: build check
-      run: ci/run-build-and-tests.sh
-
-  clang9-x86-debug:
-    runs-on: ubuntu-latest
-    env:
-      CC: clang-9
-      CPPFLAGS: -DUTEMPTER_DEBUG
-      TARGET: x86
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: install dependencies
-      run: ci/install-dependencies.sh
-    - name: build check
-      run: ci/run-build-and-tests.sh
-
-  clang8-x86-debug:
-    runs-on: ubuntu-latest
-    env:
-      CC: clang-8
-      CPPFLAGS: -DUTEMPTER_DEBUG
-      TARGET: x86
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: install dependencies
-      run: ci/install-dependencies.sh
-    - name: build check
-      run: ci/run-build-and-tests.sh
-
-  clang7-x86-debug:
-    runs-on: ubuntu-latest
-    env:
-      CC: clang-7
       CPPFLAGS: -DUTEMPTER_DEBUG
       TARGET: x86
     steps:
@@ -909,36 +503,6 @@ jobs:
     - name: build check
       run: ci/run-build-and-tests.sh
 
-  gcc8-x86_64-log:
-    runs-on: ubuntu-latest
-    env:
-      CC: gcc-8
-      CPPFLAGS: -DUTEMPTER_LOG
-      TARGET: x86_64
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: install dependencies
-      run: ci/install-dependencies.sh
-    - name: build check
-      run: ci/run-build-and-tests.sh
-
-  gcc7-x86_64-log:
-    runs-on: ubuntu-latest
-    env:
-      CC: gcc-7
-      CPPFLAGS: -DUTEMPTER_LOG
-      TARGET: x86_64
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: install dependencies
-      run: ci/install-dependencies.sh
-    - name: build check
-      run: ci/run-build-and-tests.sh
-
   clang12-x86_64-log:
     runs-on: ubuntu-22.04
     env:
@@ -958,66 +522,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       CC: clang-11
-      CPPFLAGS: -DUTEMPTER_LOG
-      TARGET: x86_64
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: install dependencies
-      run: ci/install-dependencies.sh
-    - name: build check
-      run: ci/run-build-and-tests.sh
-
-  clang10-x86_64-log:
-    runs-on: ubuntu-latest
-    env:
-      CC: clang-10
-      CPPFLAGS: -DUTEMPTER_LOG
-      TARGET: x86_64
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: install dependencies
-      run: ci/install-dependencies.sh
-    - name: build check
-      run: ci/run-build-and-tests.sh
-
-  clang9-x86_64-log:
-    runs-on: ubuntu-latest
-    env:
-      CC: clang-9
-      CPPFLAGS: -DUTEMPTER_LOG
-      TARGET: x86_64
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: install dependencies
-      run: ci/install-dependencies.sh
-    - name: build check
-      run: ci/run-build-and-tests.sh
-
-  clang8-x86_64-log:
-    runs-on: ubuntu-latest
-    env:
-      CC: clang-8
-      CPPFLAGS: -DUTEMPTER_LOG
-      TARGET: x86_64
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: install dependencies
-      run: ci/install-dependencies.sh
-    - name: build check
-      run: ci/run-build-and-tests.sh
-
-  clang7-x86_64-log:
-    runs-on: ubuntu-latest
-    env:
-      CC: clang-7
       CPPFLAGS: -DUTEMPTER_LOG
       TARGET: x86_64
     steps:
@@ -1074,36 +578,6 @@ jobs:
     - name: build check
       run: ci/run-build-and-tests.sh
 
-  gcc8-x32-log:
-    runs-on: ubuntu-latest
-    env:
-      CC: gcc-8
-      CPPFLAGS: -DUTEMPTER_LOG
-      TARGET: x32
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: install dependencies
-      run: ci/install-dependencies.sh
-    - name: build check
-      run: ci/run-build-and-tests.sh
-
-  gcc7-x32-log:
-    runs-on: ubuntu-latest
-    env:
-      CC: gcc-7
-      CPPFLAGS: -DUTEMPTER_LOG
-      TARGET: x32
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: install dependencies
-      run: ci/install-dependencies.sh
-    - name: build check
-      run: ci/run-build-and-tests.sh
-
   gcc11-x86-log:
     runs-on: ubuntu-22.04
     env:
@@ -1149,36 +623,6 @@ jobs:
     - name: build check
       run: ci/run-build-and-tests.sh
 
-  gcc8-x86-log:
-    runs-on: ubuntu-latest
-    env:
-      CC: gcc-8
-      CPPFLAGS: -DUTEMPTER_LOG
-      TARGET: x86
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: install dependencies
-      run: ci/install-dependencies.sh
-    - name: build check
-      run: ci/run-build-and-tests.sh
-
-  gcc7-x86-log:
-    runs-on: ubuntu-latest
-    env:
-      CC: gcc-7
-      CPPFLAGS: -DUTEMPTER_LOG
-      TARGET: x86
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: install dependencies
-      run: ci/install-dependencies.sh
-    - name: build check
-      run: ci/run-build-and-tests.sh
-
   clang12-x86-log:
     runs-on: ubuntu-22.04
     env:
@@ -1198,66 +642,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       CC: clang-11
-      CPPFLAGS: -DUTEMPTER_LOG
-      TARGET: x86
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: install dependencies
-      run: ci/install-dependencies.sh
-    - name: build check
-      run: ci/run-build-and-tests.sh
-
-  clang10-x86-log:
-    runs-on: ubuntu-latest
-    env:
-      CC: clang-10
-      CPPFLAGS: -DUTEMPTER_LOG
-      TARGET: x86
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: install dependencies
-      run: ci/install-dependencies.sh
-    - name: build check
-      run: ci/run-build-and-tests.sh
-
-  clang9-x86-log:
-    runs-on: ubuntu-latest
-    env:
-      CC: clang-9
-      CPPFLAGS: -DUTEMPTER_LOG
-      TARGET: x86
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: install dependencies
-      run: ci/install-dependencies.sh
-    - name: build check
-      run: ci/run-build-and-tests.sh
-
-  clang8-x86-log:
-    runs-on: ubuntu-latest
-    env:
-      CC: clang-8
-      CPPFLAGS: -DUTEMPTER_LOG
-      TARGET: x86
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: install dependencies
-      run: ci/install-dependencies.sh
-    - name: build check
-      run: ci/run-build-and-tests.sh
-
-  clang7-x86-log:
-    runs-on: ubuntu-latest
-    env:
-      CC: clang-7
       CPPFLAGS: -DUTEMPTER_LOG
       TARGET: x86
     steps:
