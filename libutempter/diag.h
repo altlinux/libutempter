@@ -22,6 +22,7 @@
 # define UTEMPTER_DIAG_H
 
 # include <syslog.h>
+# include <unistd.h>
 
 # ifdef UTEMPTER_LOG
 #  define log_debug(fmt_, ...) syslog(LOG_DEBUG, fmt_, ##__VA_ARGS__)
@@ -45,12 +46,12 @@
 	} while (0)					\
 /* End of debug_msg definition.  */
 
-# define fatal_error(fmt_, ...)				\
-	do {						\
-		log_error(fmt_, ##__VA_ARGS__);		\
-		print_dbg(fmt_, ##__VA_ARGS__);		\
-		exit(EXIT_FAILURE);			\
-	} while (0)					\
+# define fatal_error(fmt_, ...)							\
+	do {									\
+		log_error("[ppid=%ld] " fmt_, (long)getppid(), ##__VA_ARGS__);	\
+		print_dbg(fmt_, ##__VA_ARGS__);					\
+		exit(EXIT_FAILURE);						\
+	} while (0)								\
 /* End of fatal_error definition.  */
 
 #endif /* UTEMPTER_DIAG_H */
