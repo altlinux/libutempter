@@ -38,10 +38,10 @@ man3dir = $(mandir)/man3
 DESTDIR =
 
 WARNINGS = -W -Wall -Waggregate-return -Wcast-align -Wconversion \
-	-Wdisabled-optimization -Wmissing-declarations \
+	-Wdisabled-optimization -Wformat=2 -Wmissing-declarations \
 	-Wmissing-format-attribute -Wmissing-noreturn \
 	-Wmissing-prototypes -Wpointer-arith -Wredundant-decls \
-	-Wshadow -Wstrict-prototypes -Wwrite-strings
+	-Wshadow -Wstrict-prototypes -Wundef -Wunused -Wwrite-strings
 COMPILE_DIALECT = -std=gnu99
 COMPILE_LFS =
 COMPILE_PIC = -fPIC
