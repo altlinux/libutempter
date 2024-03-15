@@ -151,7 +151,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   gcc13-x32:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     env:
       CC: gcc-13
       TARGET: x32
@@ -164,22 +164,8 @@ jobs:
     - name: build check
       run: ci/run-build-and-tests.sh
 
-  gcc12-x32:
-    runs-on: ubuntu-latest
-    env:
-      CC: gcc-12
-      TARGET: x32
-    steps:
-    - uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
-    - name: install dependencies
-      run: ci/install-dependencies.sh
-    - name: build check
-      run: ci/run-build-and-tests.sh
-
   gcc11-x32:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     env:
       CC: gcc-11
       TARGET: x32
@@ -193,7 +179,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   gcc10-x32:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     env:
       CC: gcc-10
       TARGET: x32
@@ -207,7 +193,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   gcc9-x32:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     env:
       CC: gcc-9
       TARGET: x32
@@ -525,7 +511,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   gcc13-x32-debug:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     env:
       CC: gcc-13
       CPPFLAGS: -DUTEMPTER_DEBUG
@@ -539,23 +525,8 @@ jobs:
     - name: build check
       run: ci/run-build-and-tests.sh
 
-  gcc12-x32-debug:
-    runs-on: ubuntu-latest
-    env:
-      CC: gcc-12
-      CPPFLAGS: -DUTEMPTER_DEBUG
-      TARGET: x32
-    steps:
-    - uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
-    - name: install dependencies
-      run: ci/install-dependencies.sh
-    - name: build check
-      run: ci/run-build-and-tests.sh
-
   gcc11-x32-debug:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     env:
       CC: gcc-11
       CPPFLAGS: -DUTEMPTER_DEBUG
@@ -570,7 +541,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   gcc10-x32-debug:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     env:
       CC: gcc-10
       CPPFLAGS: -DUTEMPTER_DEBUG
@@ -585,7 +556,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   gcc9-x32-debug:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     env:
       CC: gcc-9
       CPPFLAGS: -DUTEMPTER_DEBUG
@@ -915,7 +886,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   gcc13-x32-log:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     env:
       CC: gcc-13
       CPPFLAGS: -DUTEMPTER_LOG
@@ -929,23 +900,8 @@ jobs:
     - name: build check
       run: ci/run-build-and-tests.sh
 
-  gcc12-x32-log:
-    runs-on: ubuntu-latest
-    env:
-      CC: gcc-12
-      CPPFLAGS: -DUTEMPTER_LOG
-      TARGET: x32
-    steps:
-    - uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
-    - name: install dependencies
-      run: ci/install-dependencies.sh
-    - name: build check
-      run: ci/run-build-and-tests.sh
-
   gcc11-x32-log:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     env:
       CC: gcc-11
       CPPFLAGS: -DUTEMPTER_LOG
@@ -960,7 +916,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   gcc10-x32-log:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     env:
       CC: gcc-10
       CPPFLAGS: -DUTEMPTER_LOG
@@ -975,7 +931,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   gcc9-x32-log:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     env:
       CC: gcc-9
       CPPFLAGS: -DUTEMPTER_LOG
