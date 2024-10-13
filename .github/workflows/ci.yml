@@ -10,6 +10,20 @@ jobs:
     - name: check
       run: git diff-index --check --cached 4b825dc642cb6eb9a060e54bf8d69288fbee4904
 
+  gcc14-x86_64:
+    runs-on: ubuntu-24.04
+    env:
+      CC: gcc-14
+      TARGET: x86_64
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: install dependencies
+      run: ci/install-dependencies.sh
+    - name: build check
+      run: ci/run-build-and-tests.sh
+
   gcc13-x86_64:
     runs-on: ubuntu-latest
     env:
@@ -70,6 +84,48 @@ jobs:
     runs-on: ubuntu-latest
     env:
       CC: gcc-9
+      TARGET: x86_64
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: install dependencies
+      run: ci/install-dependencies.sh
+    - name: build check
+      run: ci/run-build-and-tests.sh
+
+  clang18-x86_64:
+    runs-on: ubuntu-24.04
+    env:
+      CC: clang-18
+      TARGET: x86_64
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: install dependencies
+      run: ci/install-dependencies.sh
+    - name: build check
+      run: ci/run-build-and-tests.sh
+
+  clang17-x86_64:
+    runs-on: ubuntu-24.04
+    env:
+      CC: clang-17
+      TARGET: x86_64
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: install dependencies
+      run: ci/install-dependencies.sh
+    - name: build check
+      run: ci/run-build-and-tests.sh
+
+  clang16-x86_64:
+    runs-on: ubuntu-24.04
+    env:
+      CC: clang-16
       TARGET: x86_64
     steps:
     - uses: actions/checkout@v4
@@ -206,6 +262,20 @@ jobs:
     - name: build check
       run: ci/run-build-and-tests.sh
 
+  gcc14-x86:
+    runs-on: ubuntu-24.04
+    env:
+      CC: gcc-14
+      TARGET: x86
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: install dependencies
+      run: ci/install-dependencies.sh
+    - name: build check
+      run: ci/run-build-and-tests.sh
+
   gcc13-x86:
     runs-on: ubuntu-latest
     env:
@@ -266,6 +336,48 @@ jobs:
     runs-on: ubuntu-latest
     env:
       CC: gcc-9
+      TARGET: x86
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: install dependencies
+      run: ci/install-dependencies.sh
+    - name: build check
+      run: ci/run-build-and-tests.sh
+
+  clang18-x86:
+    runs-on: ubuntu-24.04
+    env:
+      CC: clang-18
+      TARGET: x86
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: install dependencies
+      run: ci/install-dependencies.sh
+    - name: build check
+      run: ci/run-build-and-tests.sh
+
+  clang17-x86:
+    runs-on: ubuntu-24.04
+    env:
+      CC: clang-17
+      TARGET: x86
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: install dependencies
+      run: ci/install-dependencies.sh
+    - name: build check
+      run: ci/run-build-and-tests.sh
+
+  clang16-x86:
+    runs-on: ubuntu-24.04
+    env:
+      CC: clang-16
       TARGET: x86
     steps:
     - uses: actions/checkout@v4
@@ -360,6 +472,21 @@ jobs:
     - name: build check
       run: ci/run-build-and-tests.sh
 
+  gcc14-x86_64-debug:
+    runs-on: ubuntu-24.04
+    env:
+      CC: gcc-14
+      CPPFLAGS: -DUTEMPTER_DEBUG
+      TARGET: x86_64
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: install dependencies
+      run: ci/install-dependencies.sh
+    - name: build check
+      run: ci/run-build-and-tests.sh
+
   gcc13-x86_64-debug:
     runs-on: ubuntu-latest
     env:
@@ -424,6 +551,51 @@ jobs:
     runs-on: ubuntu-latest
     env:
       CC: gcc-9
+      CPPFLAGS: -DUTEMPTER_DEBUG
+      TARGET: x86_64
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: install dependencies
+      run: ci/install-dependencies.sh
+    - name: build check
+      run: ci/run-build-and-tests.sh
+
+  clang18-x86_64-debug:
+    runs-on: ubuntu-24.04
+    env:
+      CC: clang-18
+      CPPFLAGS: -DUTEMPTER_DEBUG
+      TARGET: x86_64
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: install dependencies
+      run: ci/install-dependencies.sh
+    - name: build check
+      run: ci/run-build-and-tests.sh
+
+  clang17-x86_64-debug:
+    runs-on: ubuntu-24.04
+    env:
+      CC: clang-17
+      CPPFLAGS: -DUTEMPTER_DEBUG
+      TARGET: x86_64
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: install dependencies
+      run: ci/install-dependencies.sh
+    - name: build check
+      run: ci/run-build-and-tests.sh
+
+  clang16-x86_64-debug:
+    runs-on: ubuntu-24.04
+    env:
+      CC: clang-16
       CPPFLAGS: -DUTEMPTER_DEBUG
       TARGET: x86_64
     steps:
@@ -570,6 +742,21 @@ jobs:
     - name: build check
       run: ci/run-build-and-tests.sh
 
+  gcc14-x86-debug:
+    runs-on: ubuntu-24.04
+    env:
+      CC: gcc-14
+      CPPFLAGS: -DUTEMPTER_DEBUG
+      TARGET: x86
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: install dependencies
+      run: ci/install-dependencies.sh
+    - name: build check
+      run: ci/run-build-and-tests.sh
+
   gcc13-x86-debug:
     runs-on: ubuntu-latest
     env:
@@ -634,6 +821,51 @@ jobs:
     runs-on: ubuntu-latest
     env:
       CC: gcc-9
+      CPPFLAGS: -DUTEMPTER_DEBUG
+      TARGET: x86
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: install dependencies
+      run: ci/install-dependencies.sh
+    - name: build check
+      run: ci/run-build-and-tests.sh
+
+  clang18-x86-debug:
+    runs-on: ubuntu-24.04
+    env:
+      CC: clang-18
+      CPPFLAGS: -DUTEMPTER_DEBUG
+      TARGET: x86
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: install dependencies
+      run: ci/install-dependencies.sh
+    - name: build check
+      run: ci/run-build-and-tests.sh
+
+  clang17-x86-debug:
+    runs-on: ubuntu-24.04
+    env:
+      CC: clang-17
+      CPPFLAGS: -DUTEMPTER_DEBUG
+      TARGET: x86
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: install dependencies
+      run: ci/install-dependencies.sh
+    - name: build check
+      run: ci/run-build-and-tests.sh
+
+  clang16-x86-debug:
+    runs-on: ubuntu-24.04
+    env:
+      CC: clang-16
       CPPFLAGS: -DUTEMPTER_DEBUG
       TARGET: x86
     steps:
@@ -735,6 +967,21 @@ jobs:
     - name: build check
       run: ci/run-build-and-tests.sh
 
+  gcc14-x86_64-log:
+    runs-on: ubuntu-24.04
+    env:
+      CC: gcc-14
+      CPPFLAGS: -DUTEMPTER_LOG
+      TARGET: x86_64
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: install dependencies
+      run: ci/install-dependencies.sh
+    - name: build check
+      run: ci/run-build-and-tests.sh
+
   gcc13-x86_64-log:
     runs-on: ubuntu-latest
     env:
@@ -799,6 +1046,51 @@ jobs:
     runs-on: ubuntu-latest
     env:
       CC: gcc-9
+      CPPFLAGS: -DUTEMPTER_LOG
+      TARGET: x86_64
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: install dependencies
+      run: ci/install-dependencies.sh
+    - name: build check
+      run: ci/run-build-and-tests.sh
+
+  clang18-x86_64-log:
+    runs-on: ubuntu-24.04
+    env:
+      CC: clang-18
+      CPPFLAGS: -DUTEMPTER_LOG
+      TARGET: x86_64
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: install dependencies
+      run: ci/install-dependencies.sh
+    - name: build check
+      run: ci/run-build-and-tests.sh
+
+  clang17-x86_64-log:
+    runs-on: ubuntu-24.04
+    env:
+      CC: clang-17
+      CPPFLAGS: -DUTEMPTER_LOG
+      TARGET: x86_64
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: install dependencies
+      run: ci/install-dependencies.sh
+    - name: build check
+      run: ci/run-build-and-tests.sh
+
+  clang16-x86_64-log:
+    runs-on: ubuntu-24.04
+    env:
+      CC: clang-16
       CPPFLAGS: -DUTEMPTER_LOG
       TARGET: x86_64
     steps:
@@ -945,6 +1237,21 @@ jobs:
     - name: build check
       run: ci/run-build-and-tests.sh
 
+  gcc14-x86-log:
+    runs-on: ubuntu-24.04
+    env:
+      CC: gcc-14
+      CPPFLAGS: -DUTEMPTER_LOG
+      TARGET: x86
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: install dependencies
+      run: ci/install-dependencies.sh
+    - name: build check
+      run: ci/run-build-and-tests.sh
+
   gcc13-x86-log:
     runs-on: ubuntu-latest
     env:
@@ -1009,6 +1316,51 @@ jobs:
     runs-on: ubuntu-latest
     env:
       CC: gcc-9
+      CPPFLAGS: -DUTEMPTER_LOG
+      TARGET: x86
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: install dependencies
+      run: ci/install-dependencies.sh
+    - name: build check
+      run: ci/run-build-and-tests.sh
+
+  clang18-x86-log:
+    runs-on: ubuntu-24.04
+    env:
+      CC: clang-18
+      CPPFLAGS: -DUTEMPTER_LOG
+      TARGET: x86
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: install dependencies
+      run: ci/install-dependencies.sh
+    - name: build check
+      run: ci/run-build-and-tests.sh
+
+  clang17-x86-log:
+    runs-on: ubuntu-24.04
+    env:
+      CC: clang-17
+      CPPFLAGS: -DUTEMPTER_LOG
+      TARGET: x86
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: install dependencies
+      run: ci/install-dependencies.sh
+    - name: build check
+      run: ci/run-build-and-tests.sh
+
+  clang16-x86-log:
+    runs-on: ubuntu-24.04
+    env:
+      CC: clang-16
       CPPFLAGS: -DUTEMPTER_LOG
       TARGET: x86
     steps:
