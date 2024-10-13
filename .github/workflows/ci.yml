@@ -25,7 +25,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   gcc13-x86_64:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       CC: gcc-13
       TARGET: x86_64
@@ -39,7 +39,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   gcc12-x86_64:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       CC: gcc-12
       TARGET: x86_64
@@ -53,7 +53,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   gcc11-x86_64:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       CC: gcc-11
       TARGET: x86_64
@@ -67,7 +67,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   gcc10-x86_64:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       CC: gcc-10
       TARGET: x86_64
@@ -81,7 +81,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   gcc9-x86_64:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       CC: gcc-9
       TARGET: x86_64
@@ -137,7 +137,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   clang15-x86_64:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       CC: clang-15
       TARGET: x86_64
@@ -151,7 +151,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   clang14-x86_64:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       CC: clang-14
       TARGET: x86_64
@@ -165,7 +165,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   clang13-x86_64:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       CC: clang-13
       TARGET: x86_64
@@ -179,7 +179,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   clang12-x86_64:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       CC: clang-12
       TARGET: x86_64
@@ -193,7 +193,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   clang11-x86_64:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       CC: clang-11
       TARGET: x86_64
@@ -277,7 +277,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   gcc13-x86:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       CC: gcc-13
       TARGET: x86
@@ -291,7 +291,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   gcc12-x86:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       CC: gcc-12
       TARGET: x86
@@ -305,7 +305,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   gcc11-x86:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       CC: gcc-11
       TARGET: x86
@@ -319,7 +319,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   gcc10-x86:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       CC: gcc-10
       TARGET: x86
@@ -333,7 +333,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   gcc9-x86:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       CC: gcc-9
       TARGET: x86
@@ -389,7 +389,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   clang15-x86:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       CC: clang-15
       TARGET: x86
@@ -403,7 +403,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   clang14-x86:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       CC: clang-14
       TARGET: x86
@@ -417,7 +417,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   clang13-x86:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       CC: clang-13
       TARGET: x86
@@ -431,7 +431,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   clang12-x86:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       CC: clang-12
       TARGET: x86
@@ -445,7 +445,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   clang11-x86:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       CC: clang-11
       TARGET: x86
@@ -459,7 +459,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   musl-x86_64:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       CC: musl-gcc
       TARGET: x86_64
@@ -488,7 +488,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   gcc13-x86_64-debug:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       CC: gcc-13
       CPPFLAGS: -DUTEMPTER_DEBUG
@@ -503,7 +503,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   gcc12-x86_64-debug:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       CC: gcc-12
       CPPFLAGS: -DUTEMPTER_DEBUG
@@ -518,7 +518,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   gcc11-x86_64-debug:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       CC: gcc-11
       CPPFLAGS: -DUTEMPTER_DEBUG
@@ -533,7 +533,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   gcc10-x86_64-debug:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       CC: gcc-10
       CPPFLAGS: -DUTEMPTER_DEBUG
@@ -548,7 +548,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   gcc9-x86_64-debug:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       CC: gcc-9
       CPPFLAGS: -DUTEMPTER_DEBUG
@@ -608,7 +608,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   clang15-x86_64-debug:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       CC: clang-15
       CPPFLAGS: -DUTEMPTER_DEBUG
@@ -623,7 +623,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   clang14-x86_64-debug:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       CC: clang-14
       CPPFLAGS: -DUTEMPTER_DEBUG
@@ -638,7 +638,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   clang13-x86_64-debug:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       CC: clang-13
       CPPFLAGS: -DUTEMPTER_DEBUG
@@ -653,7 +653,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   clang12-x86_64-debug:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       CC: clang-12
       CPPFLAGS: -DUTEMPTER_DEBUG
@@ -668,7 +668,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   clang11-x86_64-debug:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       CC: clang-11
       CPPFLAGS: -DUTEMPTER_DEBUG
@@ -758,7 +758,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   gcc13-x86-debug:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       CC: gcc-13
       CPPFLAGS: -DUTEMPTER_DEBUG
@@ -773,7 +773,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   gcc12-x86-debug:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       CC: gcc-12
       CPPFLAGS: -DUTEMPTER_DEBUG
@@ -788,7 +788,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   gcc11-x86-debug:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       CC: gcc-11
       CPPFLAGS: -DUTEMPTER_DEBUG
@@ -803,7 +803,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   gcc10-x86-debug:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       CC: gcc-10
       CPPFLAGS: -DUTEMPTER_DEBUG
@@ -818,7 +818,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   gcc9-x86-debug:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       CC: gcc-9
       CPPFLAGS: -DUTEMPTER_DEBUG
@@ -878,7 +878,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   clang15-x86-debug:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       CC: clang-15
       CPPFLAGS: -DUTEMPTER_DEBUG
@@ -893,7 +893,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   clang14-x86-debug:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       CC: clang-14
       CPPFLAGS: -DUTEMPTER_DEBUG
@@ -908,7 +908,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   clang13-x86-debug:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       CC: clang-13
       CPPFLAGS: -DUTEMPTER_DEBUG
@@ -923,7 +923,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   clang12-x86-debug:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       CC: clang-12
       CPPFLAGS: -DUTEMPTER_DEBUG
@@ -938,7 +938,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   clang11-x86-debug:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       CC: clang-11
       CPPFLAGS: -DUTEMPTER_DEBUG
@@ -953,7 +953,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   musl-x86_64-debug:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       CC: musl-gcc
       CPPFLAGS: -DUTEMPTER_DEBUG
@@ -983,7 +983,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   gcc13-x86_64-log:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       CC: gcc-13
       CPPFLAGS: -DUTEMPTER_LOG
@@ -998,7 +998,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   gcc12-x86_64-log:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       CC: gcc-12
       CPPFLAGS: -DUTEMPTER_LOG
@@ -1013,7 +1013,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   gcc11-x86_64-log:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       CC: gcc-11
       CPPFLAGS: -DUTEMPTER_LOG
@@ -1028,7 +1028,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   gcc10-x86_64-log:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       CC: gcc-10
       CPPFLAGS: -DUTEMPTER_LOG
@@ -1043,7 +1043,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   gcc9-x86_64-log:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       CC: gcc-9
       CPPFLAGS: -DUTEMPTER_LOG
@@ -1103,7 +1103,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   clang15-x86_64-log:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       CC: clang-15
       CPPFLAGS: -DUTEMPTER_LOG
@@ -1118,7 +1118,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   clang14-x86_64-log:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       CC: clang-14
       CPPFLAGS: -DUTEMPTER_LOG
@@ -1133,7 +1133,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   clang13-x86_64-log:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       CC: clang-13
       CPPFLAGS: -DUTEMPTER_LOG
@@ -1148,7 +1148,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   clang12-x86_64-log:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       CC: clang-12
       CPPFLAGS: -DUTEMPTER_LOG
@@ -1163,7 +1163,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   clang11-x86_64-log:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       CC: clang-11
       CPPFLAGS: -DUTEMPTER_LOG
@@ -1253,7 +1253,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   gcc13-x86-log:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       CC: gcc-13
       CPPFLAGS: -DUTEMPTER_LOG
@@ -1268,7 +1268,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   gcc12-x86-log:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       CC: gcc-12
       CPPFLAGS: -DUTEMPTER_LOG
@@ -1283,7 +1283,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   gcc11-x86-log:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       CC: gcc-11
       CPPFLAGS: -DUTEMPTER_LOG
@@ -1298,7 +1298,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   gcc10-x86-log:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       CC: gcc-10
       CPPFLAGS: -DUTEMPTER_LOG
@@ -1313,7 +1313,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   gcc9-x86-log:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       CC: gcc-9
       CPPFLAGS: -DUTEMPTER_LOG
@@ -1373,7 +1373,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   clang15-x86-log:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       CC: clang-15
       CPPFLAGS: -DUTEMPTER_LOG
@@ -1388,7 +1388,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   clang14-x86-log:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       CC: clang-14
       CPPFLAGS: -DUTEMPTER_LOG
@@ -1403,7 +1403,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   clang13-x86-log:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       CC: clang-13
       CPPFLAGS: -DUTEMPTER_LOG
@@ -1418,7 +1418,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   clang12-x86-log:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       CC: clang-12
       CPPFLAGS: -DUTEMPTER_LOG
@@ -1433,7 +1433,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   clang11-x86-log:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       CC: clang-11
       CPPFLAGS: -DUTEMPTER_LOG
@@ -1448,7 +1448,7 @@ jobs:
       run: ci/run-build-and-tests.sh
 
   musl-x86_64-log:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       CC: musl-gcc
       CPPFLAGS: -DUTEMPTER_LOG
