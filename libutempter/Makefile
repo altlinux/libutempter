@@ -82,12 +82,12 @@ install:
 	$(INSTALL) -p -m2711 $(PROJECT) $(DESTDIR)$(libexecdir)/$(PROJECT)/
 	$(INSTALL) -p -m644 $(PROJECT).h $(DESTDIR)$(includedir)/
 	$(INSTALL) -p -m755 $(SHAREDLIB) $(DESTDIR)$(libdir)/$(SHAREDLIB).$(VERSION)
-	ln -s $(SHAREDLIB).$(VERSION) $(DESTDIR)$(libdir)/$(SONAME)
-	ln -s $(SONAME) $(DESTDIR)$(libdir)/$(SHAREDLIB)
+	ln -sf $(SHAREDLIB).$(VERSION) $(DESTDIR)$(libdir)/$(SONAME)
+	ln -sf $(SONAME) $(DESTDIR)$(libdir)/$(SHAREDLIB)
 	$(INSTALL) -p -m644 $(PROJECT).3 $(DESTDIR)$(man3dir)/
 	for n in lib$(PROJECT) utempter_add_record utempter_remove_record \
 	    utempter_remove_added_record utempter_set_helper; do \
-		ln -s $(PROJECT).3 $(DESTDIR)$(man3dir)/$$n.3; \
+		ln -sf $(PROJECT).3 $(DESTDIR)$(man3dir)/$$n.3; \
 	done
 
 clean:
