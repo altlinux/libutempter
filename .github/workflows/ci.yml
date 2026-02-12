@@ -30,6 +30,7 @@ jobs:
           - gcc-11
           - gcc-10
           - gcc-9
+          - clang-19
           - clang-18
           - clang-17
           - clang-16
