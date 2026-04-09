@@ -27,7 +27,15 @@ SONAME = $(SHAREDLIB).$(MAJOR)
 STATICLIB = lib$(PROJECT).a
 MAP = lib$(PROJECT).map
 
-TARGETS = $(PROJECT) $(SHAREDLIB)
+STATIC ?= 0
+DYNAMIC ?= 1
+TARGETS = $(PROJECT)
+ifeq ($(DYNAMIC),1)
+TARGETS += $(SHAREDLIB)
+endif
+ifeq ($(STATIC),1)
+TARGETS += $(STATICLIB)
+endif
 
 INSTALL = install
 libdir = /usr/lib
@@ -81,9 +89,14 @@ install:
 		$(DESTDIR)$(includedir) $(DESTDIR)$(man3dir)
 	$(INSTALL) -p -m2711 $(PROJECT) $(DESTDIR)$(libexecdir)/$(PROJECT)/
 	$(INSTALL) -p -m644 $(PROJECT).h $(DESTDIR)$(includedir)/
+ifeq ($(DYNAMIC),1)
 	$(INSTALL) -p -m755 $(SHAREDLIB) $(DESTDIR)$(libdir)/$(SHAREDLIB).$(VERSION)
 	ln -fns $(SHAREDLIB).$(VERSION) $(DESTDIR)$(libdir)/$(SONAME)
 	ln -fns $(SONAME) $(DESTDIR)$(libdir)/$(SHAREDLIB)
+endif
+ifeq ($(STATIC),1)
+	$(INSTALL) -p -m644 $(STATICLIB) $(DESTDIR)$(libdir)/
+endif
 	$(INSTALL) -p -m644 $(PROJECT).3 $(DESTDIR)$(man3dir)/
 	for n in lib$(PROJECT) utempter_add_record utempter_remove_record \
 	    utempter_remove_added_record utempter_set_helper; do \
